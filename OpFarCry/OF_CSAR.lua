@@ -34,34 +34,32 @@ my_csar:__Start(5)
 
 
 function my_csar:OnAfterPilotDown(from, event, to, spawnedgroup, frequency, groupname, coordinates_text)
-  --MessageToAll("my_csar:OnAfterPilotDown")
-  MessageToAll("Mayday Mayday Mayday, Pilot down! Contact at: " .. tostring(frequency) .. "kHz, coordinates: " .. coordinates_text)
+--  MESSAGE:New("my_csar:OnAfterPilotDown", 15):ToAll()
+
+  MESSAGE:New("Mayday Mayday Mayday, Pilot down! Contact at: " .. tostring(frequency) .. "kHz, coordinates: " .. coordinates_text, 15):ToAll()
 end
 
 --[[ 
 function my_csar:OnAfterApproach(from, event, to, heliname, groupname)
-  --MessageToAll("my_csar:OnAfterApproach")
---  MessageToAll("Approaching downed pilot. ".. heliname .. " request flare or smoke for assistance.")
+--  MESSAGE:New("my_csar:OnAfterApproach", 15):ToAll()
   MESSAGE:New( "Approaching downed pilot - look out for smoke!"):ToGroup(UNIT:FindByName(heliname):GetGroup())  
 end 
 ]]
 
 function my_csar:OnAfterBoarded(from, event, to, heliname, groupname)
-  --MessageToAll("my_csar:OnAfterBoarded")
-  --MessageToAll(heliname .. " - Picked up downed pilot. Return to nearest MASH or Airfield immediately.")
+--  MESSAGE:New("my_csar:OnAfterBoarded", 15):ToAll()
   MESSAGE:New( "Picked up downed pilot. Return to nearest MASH or Airfield immediately!"):ToGroup(UNIT:FindByName(heliname):GetGroup())  
   --CsarMapMarker = {}
 end
 
 --function my_csar:OnAfterReturning(from, event, to, heliname, groupname)
-  --MessageToAll("my_csar:OnAfterReturning")
+--  MESSAGE:New("my_csar:OnAfterReturning", 15):ToAll()
     -- Stop helo.
   --self:__Stop(2)
 --end
 
 function my_csar:OnAfterRescued(from, event, to, heliunit, heliname, pilotssaved)
-  --MessageToAll("my_csar:OnAfterRescued")
-  MessageToAll("Downed pilot succesfully delivered to more capable hands in MASH. Thank you!")
+--  MESSAGE:New("my_csar:OnAfterRescued", 15):ToAll()
   --MESSAGE:New( "We will take care of the patient, you are good to go!"):ToGroup(UNIT:FindByName(heliname):GetGroup())  
 end
 
@@ -84,5 +82,5 @@ SetGroups:ForEachGroup(function(groupToMove)
   end
 )
 
-MessageToAll("Added CSAR Menu")
+MESSAGE:New("Added CSAR Menu", 15):ToAll()
 

@@ -22,54 +22,165 @@ end
 
 
 local sectorConfig = {
-  ["RF_CZ01_Observe_Zone"] = 
+  ["CombatSector-01"] = 
     {
-      name = "Sector South", 
-      airwing = AWFARP_RF_CZ02_02, 
-      opszones = {"CombatZone-1", "CombatZone-2", "CombatZone-3"}, 
+      name = "Bridgehead", 
+      airwing = nil,
+      zonePrefix = "OpsZone-01-",
+      opszones = {},
       factoryPrefix = "RF_CZ01",
-      sectorHQ = "Ru_Sector1_HQ"
+      sectorHQ = "CombatSector_01_HQ"
     }, -- easy
-  ["RF_CZ02_Observe_Zone"] = 
+  ["CombatSector-02"] = 
     {
       name = "Sector North", 
-      airwing =  AWNalchik, 
-      opszones = {"CombatZone-4", "CombatZone-5", "CombatZone-6", "CombatZone-7", "CombatZone-8"}, 
-      factoryPrefix = "RF_CZ02",
-      sectorHQ = "Ru_Sector2_HQ"
-    }, -- easy
-    ["Test Sector - Offline"] = 
-    {
-      name = "Test Sector", 
       airwing =  nil, 
+      zonePrefix = "OpsZone-02-",
       opszones = {}, 
-      factoryPrefix = "TestZone",
-      sectorHQ = "TestHQ_NotPresent"
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_02_HQ"
+    }, -- easy
+  ["CombatSector-03"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-03-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_03_HQ"
+    }, -- easy
+  ["CombatSector-04"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-04-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_04_HQ"
+    }, -- easy
+  ["CombatSector-05"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-05-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_05_HQ"
+    }, -- easy
+  ["CombatSector-06"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-06-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_06_HQ"
+    }, -- easy
+  ["CombatSector-07"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-07-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_07_HQ"
+    }, -- easy
+  ["CombatSector-08"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-08-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_08_HQ"
+    }, -- easy
+  ["CombatSector-09"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-09-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_09_HQ"
+    }, -- easy
+  ["CombatSector-10"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-10-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_10_HQ"
+    }, -- easy
+  ["CombatSector-11"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-11-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_11_HQ"
+    }, -- easy
+  ["CombatSector-12"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-12-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_12_HQ"
+    }, -- easy
+  ["CombatSector-13"] = 
+    {
+      name = "Sector North", 
+      airwing =  nil, 
+      zonePrefix = "OpsZone-13-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "CombatSector_13_HQ"
+    }, -- easy
+  ["MountOlympus"] = 
+    {
+      name = "Mount Olympus", 
+      airwing =  nil, 
+      zonePrefix = "MountOlympus-",
+      opszones = {}, 
+      factoryPrefix = "RF_CZ02",
+      sectorHQ = "MountOlympus_HQ"
     }, -- easy
 }
 
-local zoneConfigs = {
+local airwings = {}
+
+--[[
+{
   ["CombatZone-1"] = { OnAfterCapturedDo =  OnAfterCapturedCZ1,
                        OnEnterAttackedDo = OnEnterAttackedDoCZ1, 
                        OnAfterAttackedDo = OnAfterAttackedDoCZ1, 
                        OnEnterGuardedDo = OnEnterGuardedDoCZ1 }, -- easy
   ["CombatZone-2"] = {}, -- easy
-  ["CombatZone-3"] = {}, -- medium
-  ["CombatZone-4"] = {}, -- medium
-  ["CombatZone-5"] = {}, -- medium
-  ["CombatZone-6"] = {}, -- medium
-  ["CombatZone-7"] = {}, -- medium
-  ["CombatZone-8"] = {}, -- medium
 }
+]]
 
-local function initZone(_name)
+
+local function initZone(_sector, _name)
+  env.info("Searching for zone: " .. _name .. ", in sector: " .. _sector)
   local theZone = ZONE:New(_name)
+
+  if theZone == nil then
+    env.info("Zone: " .. _name .. " is not available!")
+    return nil
+  end
+
   local theOpsZone = OPSZONE:New(theZone, coalition.side.NEUTRAL)
   theOpsZone:SetDrawZone(true)
   theOpsZone:__Start(2)
 
-  zoneConfigs[_name]["OpsZone"] = theOpsZone
-  zoneConfigs[_name]["OpsZone"]:SetObjectCategories({Object.Category.UNIT}) -- Ensure, that no leftover statics will count as part of eg. red coalition 
+  --sectorConfig[_sector]["opszones"] 
+  sectorConfig[_sector]["opszones"][_name] = {}
+  sectorConfig[_sector]["opszones"][_name]["Name"] = _name
+  sectorConfig[_sector]["opszones"][_name]["OpsZone"] = theOpsZone
+  sectorConfig[_sector]["opszones"][_name]["OpsZone"]:SetObjectCategories({Object.Category.UNIT}) -- Ensure, that no leftover statics will count as part of eg. red coalition 
 
 
   -- wenn diese Methoden drin sind, werden die Zonen nicht richtig gezeichnet.
@@ -80,8 +191,8 @@ local function initZone(_name)
       local m = MESSAGE:New("We lost " .. theOpsZone:GetName() .. "! Capture it back! ", 15, "Blue Chief"):ToAll()
     end
 
-    if zoneConfigs[_name]["OnAfterCapturedDo"] then
-      zoneConfigs[_name]["OnAfterCapturedDo"]()
+    if sectorConfig[_sector]["opszones"][_name]["OnAfterCapturedDo"] then
+      sectorConfig[_sector]["opszones"][_name]["OnAfterCapturedDo"]()
     end
 
   end
@@ -93,8 +204,8 @@ local function initZone(_name)
       local m = MESSAGE:New("Zone " .. theOpsZone:GetName() .. " is under attack! Fight back to regain control! ", 15, "Blue Chief"):ToAll()
     end
 
-    if zoneConfigs[_name]["OnEnterAttackedDo"] then
-      zoneConfigs[_name]["OnEnterAttackedDo"]()
+    if sectorConfig[_sector]["opszones"][_name]["OnEnterAttackedDo"] then
+      sectorConfig[_sector]["opszones"][_name]["OnEnterAttackedDo"]()
     end
 
   end
@@ -102,8 +213,8 @@ local function initZone(_name)
   function theOpsZone:OnAfterAttacked(From, Event, To, AttackerCoalition)
 --    local m = MESSAGE:New(theOpsZone:GetName() .. " OnAfterAttacked! ", 15, "Blue Chief"):ToAll()
 
-    if zoneConfigs[_name]["OnAfterAttackedDo"] then
-      zoneConfigs[_name]["OnAfterAttackedDo"]()
+    if sectorConfig[_sector]["opszones"][_name]["OnAfterAttackedDo"] then
+      sectorConfig[_sector]["opszones"][_name]["OnAfterAttackedDo"]()
     end
 
   end
@@ -111,11 +222,13 @@ local function initZone(_name)
   function theOpsZone:OnEnterGuarded(From, Event, To)
 --    local m = MESSAGE:New(theOpsZone:GetName() .. " Guarded ", 15, "Blue Chief"):ToAll()
 
-    if zoneConfigs[_name]["OnEnterGuardedDo"] then
-      zoneConfigs[_name]["OnEnterGuardedDo"]()
+    if sectorConfig[_sector]["opszones"][_name]["OnEnterGuardedDo"] then
+      sectorConfig[_sector]["opszones"][_name]["OnEnterGuardedDo"]()
     end
 
   end
+
+  return theZone
 end
 
 
@@ -131,21 +244,24 @@ local function checkSector(_sector)
     return
   end
 
+  env.info("No HQ in sector: " .. _sector .. ". Checking all zones.")
+
   -- HQ is dead, so check that no OpsZone is not blue
   for i = 1, #sectorConfig[_sector]["opszones"] do
-    local theZoneName = sectorConfig[_sector]["opszones"][i]
-    env.info("Checking if OpsZone is blue: " .. theZoneName)
+    local theOpsZone = sectorConfig[_sector]["opszones"][i]
+    env.info("Checking if OpsZone is blue: " .. theOpsZone:GetName())
 
-    if zoneConfigs[theZoneName]["OpsZone"]:IsBlue() ~= true then
+    if theOpsZone:IsBlue() ~= true then
       TIMER:New(checkSector, _sector):Start(10)
       return
     end
   end
 
+  -- all zones are blud
   for i = 1, #sectorConfig[_sector]["opszones"] do
-    local theZoneName = sectorConfig[_sector]["opszones"][i]
-    env.info("Stopping OpsZone: " .. theZoneName)
-    zoneConfigs[theZoneName]["OpsZone"]:__Stop(2)
+    local theOpsZone = sectorConfig[_sector]["opszones"][i]
+    env.info("Stopping OpsZone: " .. theOpsZone:GetName())
+    theOpsZone:__Stop(2)
   end
 
   local theSecZone = ZONE:New(_sector)
@@ -176,15 +292,32 @@ local function initSector(_name)
 
   DoPatrolsInZone(theSecZone)
 
-  for i = 1, #sectorConfig[_name]["opszones"] do
-    initZone(sectorConfig[_name]["opszones"][i])
-  end
+  -- find zones from prefix
+  lastZone = nil
+
+  env.info("Setting up zones")
+  zone_count = 1
+  repeat
+    if sectorConfig[_name]["zonePrefix"] ~= nil then
+      searchZoneName = sectorConfig[_name]["zonePrefix"] .. tonumber(zone_count)
+      env.info("Looking for " .. searchZoneName)
+      lastZone = initZone(_name, searchZoneName)
+      zone_count = zone_count + 1
+    end
+  until (lastZone == nil)
+
+  env.info("Number of zones found: " .. tonumber(zone_count))
+
+
+--  for i = 1, #sectorConfig[_name]["opszones"] do
+--    initZone(sectorConfig[_name]["opszones"][i])
+--  end
 
   -- Init regular check if the sector is still contested
   TIMER:New(checkSector, _name):Start(10)
 end
 
-
+-- inZone = ZONE, _contact = INTEL contact object
 local function doActionForSector(_inZone, _contact)
 --  MESSAGE:New("DoActionForSector " .. _inZone:GetName(), 20, "Debug"):ToAll()
   env.info("DoActionForSector " .. _inZone:GetName())
@@ -230,14 +363,16 @@ local function doActionForSector(_inZone, _contact)
     elseif (true) then -- Hier abfragen ob CAS aktiviert werden soll fuer rot.
       local mission = AUFTRAG:NewBAI(targetGroup, nil)
       mission:SetRepeatOnFailure(6)
-      sectorConfig[_inZone:GetName()]["airwing"]:AddMission(mission)
+      if sectorConfig[_inZone:GetName()]["airwing"] ~= nil then
+        sectorConfig[_inZone:GetName()]["airwing"]:AddMission(mission)
 --      MESSAGE:New("Added mission to airwing"):ToAll()
-      env.info("GroundTarget is found in " .. _inZone:GetName() .. "\nStarting CAS-ATTACK")
+        env.info("GroundTarget is found in " .. _inZone:GetName() .. "\nStarting CAS-ATTACK")
+      end
     end
 
   elseif (_contact.attribute == "Ground_EWR") or (_contact.attribute == "Ground_SAM") or
     (_contact.attribute == "Ground_AAA") then -- Spawn SEAD
-    if useEnemyAir and zoneConfigs[_inZone:GetName()]["airwing"] ~= nil then
+    if useEnemyAir and sectorConfig[_inZone:GetName()]["airwing"] ~= nil then
       -- Regel: Man kann nun schauen, dass man SEAD aus bestimmten Arealen holt, sollten entsprechende Bedingungen da sein.
       local mission = AUFTRAG:NewSEAD(GROUP:FindByName(_contact.groupname), 5000)
       mission:SetRepeatOnFailure(6)
@@ -333,6 +468,8 @@ SetGroups:ForEachGroup(function(groupMakeAngry)
  
 -- We use the callback for DSCM preSave to intercept the DSMC save routine in the DISMOUNT Script to remove the mounted dismounts before saving.
 
+--[[ 
+
 local function removeAllDSMCStatics()
   local SetStatics = SET_STATIC:New():FilterCoalitions("red"):FilterPrefixes("DSMC_CreatedStatic"):FilterOnce()
 
@@ -354,3 +491,4 @@ local MenuCoalitionRed = MENU_COALITION:New( coalition.side.RED, "Mission Contro
 local MenuCoalitionRedRemoveAllStatics = MENU_COALITION:New( coalition.side.RED, "Remove All DSMC Statics", MenuCoalitionRed )
 local MenuAddNo = MENU_COALITION_COMMAND:New( coalition.side.RED, "Don't remove all DSMC statics!", MenuCoalitionRedRemoveAllStatics, doNotRemoveAllDSMCStatics )
 local MenuAddYes = MENU_COALITION_COMMAND:New( coalition.side.RED, "Really remove all DSMC statics!", MenuCoalitionRedRemoveAllStatics, removeAllDSMCStatics )
+ ]]

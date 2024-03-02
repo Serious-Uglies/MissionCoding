@@ -61,6 +61,9 @@ my_ctld:UnitCapabilities("Hercules", true, true, 15, 64, 25)
     ["AH-64D_BLK_II"]= {cratelimit = 0, trooplimit = 2,  cargoweightlimit = 200}, -- 2 ppl **outside** the helo]]
 
 
+
+my_ctld:AddCTLDZone("ArleighBurke",CTLD.CargoZoneType.SHIP,SMOKECOLOR.Blue,true,true,240,20)
+
 -- define statics cargo
 --my_ctld:AddCratesCargo("FOB",{"Template_FOB"},CTLD_CARGO.Enum.FOB,2,500,nil)
 my_ctld:AddTroopsCargo("Infantry Squad 12",     {"Template_CTLD_Blue_Inf12"},CTLD_CARGO.Enum.TROOPS,12,80)
@@ -96,9 +99,11 @@ function my_ctld:OnAfterCratesBuild(From,Event,To,Group,Unit,Vehicle)
   if (string.match(vunitname, "FOB")) then
     local zone = ZONE_UNIT:New(vname,vunit,100)
     my_ctld:AddCTLDZone(vname,CTLD.CargoZoneType.LOAD,SMOKECOLOR.Blue,true,true)
-    MessageToAll("A new FOB has been created!")
+    
+    MESSAGE:New("A new FOB has been created!", 15):ToAll()
+
     else if (string.match(vunitname, "farp")) then
-        MessageToAll("A new FARP has been created!")
+        MESSAGE:New("A new FARP has been created!", 15):ToAll()
         local _coordinate = vunit:GetPosition()
         local farp = SPAWNSTATIC:NewFromStatic("farp"):SpawnFromCoordinate(_coordinate,0)
         local id = math.random(1,9999)
@@ -118,7 +123,7 @@ my_ctld:__Start(5)
 
 
 env.info("Collecting old CTLD crates")
-MessageToAll("Collecting old CTLD crates")
+MESSAGE:New("Collecting old CTLD crates", 15):ToAll()
 
 local SetStatics = SET_STATIC:New():FilterCoalitions("blue"):FilterPrefixes("-Container-"):FilterOnce()
 
@@ -154,7 +159,7 @@ end
 
 
 env.info("Collecting previously dropped troops")
-MessageToAll("Collecting previously dropped troops")
+MESSAGE:New("Collecting previously dropped troops", 15):ToAll()
 
 local SetGroups = SET_GROUP:New():FilterCoalitions("blue"):FilterPrefixes("Template"):FilterOnce()
 
@@ -162,11 +167,11 @@ SetGroups:ForEachGroup(function(theGroup)
   -- get name from group
   local _name = theGroup:GetName()
   env.info("Found old deployed group _name: " .. _name)
-  MessageToAll("Found old deployed group _name: " .. _name)
+  MESSAGE:New("Found old deployed group _name: " .. _name, 15):ToAll()
 
   if theGroup:IsAlive() then
     env.info("Group is alive and Active _name: " .. _name)
-    MessageToAll("Group is alive and Active _name: " .. _name)
+    MESSAGE:New("Group is alive and Active _name: " .. _name, 15):ToAll()
 
     local nameEnd = string.find(theGroup:GetName(), "-")
 
@@ -204,7 +209,7 @@ SetGroups:ForEachGroup(function(theGroup)
         newCargo:SetWasDropped(true)
       
         env.info("Readded cargo: theCargo.Name: " .. theCargo.Name)
-        MessageToAll("Readded cargo: theCargo.Name: " .. theCargo.Name)
+        MESSAGE:New("Readded cargo: theCargo.Name: " .. theCargo.Name, 15):ToAll()
       end
     end
   end
@@ -212,6 +217,5 @@ end
 )
 
 
-
-MessageToAll("Added CTLD Menu")
+MESSAGE:New("Added CTLD Menu", 15):ToAll()
 
