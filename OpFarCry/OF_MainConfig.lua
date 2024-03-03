@@ -2,6 +2,7 @@
 
 -- #region OPTIONS
 local useEnemyAir = true
+UglyPrintOnScreen = true
 -- #endregion
 
 local function OnAfterCapturedCZ1()
@@ -403,7 +404,7 @@ RedIntel:SetClusterAnalysis(true, true)
 RedIntel:SetVerbosity(2)
 RedIntel:__Start(2)
 -- Restrict to Combat_Zones to avoid cluttering of contacts.
-local SetCombatZones = SET_ZONE:New():FilterPrefixes("RF_CZ"):FilterOnce()
+local SetCombatZones = SET_ZONE:New():FilterPrefixes("CombatSector"):FilterOnce()
 RedIntel:SetAcceptZones(SetCombatZones)
 
 -- Events to create AUFTRAG
