@@ -223,6 +223,61 @@ end
 -- init start sector
 setStartSector("CombatSector-01")
 
+SupportHandler = EVENTHANDLER:New()
+
+function markRemoved(Event)
+  if Event.text~=nil and Event.text:lower():find("ddd") then 
+    env.info("markRemoved with...:" .. Event.text)
+
+    for _name,_zone in pairs(sectorConfig) do
+      env.info("Destroying HQ in sector: " .. _name)
+
+      local vec3 = {z=Event.pos.z, x=Event.pos.x}
+      local coord = COORDINATE:NewFromVec3(vec3)
+          
+      local theSecZone = ZONE:New(_name)
+
+      if coord and theSecZone and theSecZone:IsCoordinateInZone(coord) then
+        theSecZone:IsCoordinateInZone(coord)
+        local zoneHqStatic = STATIC:FindByName(sectorConfig[_name]["sectorHQ"],false)
+        if zoneHqStatic then
+          env.info("Destroying HQ: " .. sectorConfig[_name]["sectorHQ"])
+          zoneHqStatic:Destroy()
+        else
+          env.info("Cannot find HQ: " .. sectorConfig[_name]["sectorHQ"])
+        end
+      end
+    end
+  end
+end
+
+function SupportHandler:onEvent(Event)
+    if Event.id == world.event.S_EVENT_MARK_REMOVED then
+        -- env.info(string.format("BTI: Support got event REMOVED id %s idx %s coalition %s group %s text %s", Event.id, Event.idx, Event.coalition, Event.groupID, Event.text))
+        markRemoved(Event)
+    end
+end
+
+world.addEventHandler(SupportHandler)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- Initialize combat zones from config
 --[[
 for secItName, secItConfig in pairs( sectorConfig ) do
