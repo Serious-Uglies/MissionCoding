@@ -275,6 +275,9 @@ function FactoryDeathRecorder:OnEventDead( _eventData )
     if string.find(deadGroup:GetName(), "Static") ~= nil then
       UglyPrintDebug("Group is declared as static and will not respawn.")
       return
+    elseif string.find(deadGroup:GetName(), "ONCE") ~= nil then
+      UglyPrintDebug("Group is declared as ONCE and will not respawn.")
+      return
     elseif string.find(deadGroup:GetName(), "Infantry_Respawn") ~= nil then
       if deadGroup:CountAliveUnits() == 0 then
         spawnForInf = true

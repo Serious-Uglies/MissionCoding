@@ -1,6 +1,7 @@
 -- Instantiate and start a CTLD for the blue side, using helicopter groups named "Helicargo" and alias "Lufttransportbrigade I"
 my_ctld = CTLD:New(coalition.side.BLUE,{"HeliCargo"},"CTLD_Blue")
 
+--my_ctld.useprefix = true
 my_ctld.useprefix = false -- (DO NOT SWITCH THIS OFF UNLESS YOU KNOW WHAT YOU ARE DOING!) Adjust **before** starting CTLD. If set to false, *all* choppers of the coalition side will be enabled for CTLD.
 my_ctld.CrateDistance = 50 -- List and Load crates in this radius only.
 my_ctld.dropcratesanywhere = true -- Option to allow crates to be dropped anywhere.
@@ -62,7 +63,8 @@ my_ctld:UnitCapabilities("Hercules", true, true, 15, 64, 25)
 
 
 
-my_ctld:AddCTLDZone("ArleighBurke",CTLD.CargoZoneType.SHIP,SMOKECOLOR.Blue,true,true,240,20)
+my_ctld:AddCTLDZone("Tawara",CTLD.CargoZoneType.SHIP,SMOKECOLOR.Blue,true,true,240,20)
+my_ctld:AddCTLDZone("Invincible",CTLD.CargoZoneType.SHIP,SMOKECOLOR.Blue,true,true,240,20)
 
 -- define statics cargo
 ------------------------------ Troops -- 
@@ -74,7 +76,8 @@ my_ctld:AddTroopsCargo("Infantry JTac Widow",   {"Template_CTLD_Blue_JTac"},CTLD
 my_ctld:AddTroopsCargo("Infantry Stinger Pair",   {"Template_CTLD_Blue_Stinger"},CTLD_CARGO.Enum.TROOPS,2,80)
 
 ------------------------------ FOB/FARP -- 
-my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 5, 2000)
+--my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 5, 2000)
+my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 1, 500)
 
 ------------------------------ ATGMs -- 
 my_ctld:AddCratesCargo("ATGM HUMVEE",  {"TEMPLATE_CTLD_Blue_ATGM_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)

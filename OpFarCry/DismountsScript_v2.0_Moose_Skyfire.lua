@@ -29,7 +29,7 @@ local dismPrefix = "DISM_"
 local templatePrefix = "TEMPLATE_" -- TEMPLATE_RED_, TEMPLATE_BLUE_
 local dismTypes = {"RIFLE", "RFLRPG", "AAA", "IGLA", "MORTAR"} 
 local checkIntervall = 11  -- check the dismount state every X seconds f
-
+DismountDistance = 15
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Internal data - don't change!
 -- Is automatically filled with all spawn types used. Contains the SPAWN object for each type.
@@ -162,8 +162,8 @@ local function CheckMovement()
           -- Determine the x,y Vec2 position of the dismounts (10m behind of the carrier)
           local oldPos = theUnit:GetCoordinate():GetVec2()
           local dmVec2 = {
-            x = oldPos.x - 20,
-            y = oldPos.y - 20
+            x = oldPos.x - DismountDistance,
+            y = oldPos.y - DismountDistance
           }
 
           local spawnedGroup = DismountsCarrier[n].cargo_spawn:SpawnFromVec2(dmVec2)

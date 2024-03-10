@@ -23,8 +23,8 @@ if RouteList == nil then
 end
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 -- Call this function for each zone that should be observed
+
 
 function DoPatrolsInZone(_zone)
   env.info("DoPatrolsInZone: " .. _zone:GetName())
@@ -32,9 +32,9 @@ function DoPatrolsInZone(_zone)
   local SetGroups = SET_GROUP:New():FilterCoalitions("red"):FilterZones({_zone}):FilterCategoryGround():FilterPrefixes(patrolPrefix): FilterOnce()
 
   SetGroups:ForEachGroup(function(groupToMove)
-    env.info("Patrolling group: " .. groupToMove:GetName())
+    env.info("Patroling group: " .. groupToMove:GetName())
 
-    local destVec2 = _zone:GetRandomVec2()
+    local destVec2 = getRandomVec2OnLandInZone(_zone)
     local gotoData = {group = groupToMove, dest = destVec2}
     RouteList.pushright(theList, gotoData)
 

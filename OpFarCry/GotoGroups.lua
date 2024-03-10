@@ -36,7 +36,7 @@ function CheckGotosForZone(_zone)
     env.info("Rerouting group: " .. groupToMove:GetName())
 
     if groupToMove:IsAlive() then
-      local destVec2 = _zone:GetRandomVec2()
+      local destVec2 = getRandomVec2OnLandInZone(_zone)
       local gotoData = {group = groupToMove, dest = destVec2}
       RouteList.pushright(theList, gotoData)
     else

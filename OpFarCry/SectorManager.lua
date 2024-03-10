@@ -39,6 +39,7 @@ sectorConfig = {
     }
 ]]
 
+UseEnemyAir = true
 
 sectorConfig = {}
 
@@ -158,7 +159,7 @@ function checkSector(_sector)
 
   -- First check, if HQ is still there - if so, wait for another 10s
   local theHQ = sectorConfig[_sector]["sectorHQObj"]
-  if theHQ:IsAlive() == true then
+  if theHQ ~= nil and theHQ:IsAlive() == true then
     env.info("Sector HQ is still alive...")
     TIMER:New(checkSector, _sector):Start(10)
     return
@@ -204,6 +205,7 @@ function initSector(_name)
 
   if theHQ == nil then
     env.info("Sector " .. _name .. " seems to be finished already. Ignoring!")
+    checkSector(_name)
     return
   end
 
@@ -293,7 +295,7 @@ function doActionForSector(_inZone, _contact)
 
   elseif (_contact.attribute == "Ground_EWR") or (_contact.attribute == "Ground_SAM") or
     (_contact.attribute == "Ground_AAA") then -- Spawn SEAD
-    if useEnemyAir and sectorConfig[_inZone:GetName()]["airwing"] ~= nil then
+    if UseEnemyAir and sectorConfig[_inZone:GetName()]["airwing"] ~= nil then
       -- Regel: Man kann nun schauen, dass man SEAD aus bestimmten Arealen holt, sollten entsprechende Bedingungen da sein.
       local mission = AUFTRAG:NewSEAD(GROUP:FindByName(_contact.groupname), 5000)
       mission:SetRepeatOnFailure(6)

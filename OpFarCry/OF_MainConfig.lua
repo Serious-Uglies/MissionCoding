@@ -1,8 +1,10 @@
 
 
 -- #region OPTIONS
-useEnemyAir = true
+UseEnemyAir = true
 UglyPrintOnScreen = false
+DismountDistance = 10
+
 -- #endregion
 
 sectorConfig = {
