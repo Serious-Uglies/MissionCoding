@@ -1,39 +1,28 @@
-AWBeslan = AIRWING:New("AW Beslan","AW Beslan")
-AWBeslan:SetAirbase(AIRBASE:FindByName("Beslan"))
-AWBeslan:SetRespawnAfterDestroyed(60*15)
-AWBeslan:SetTakeoffCold()
-AWBeslan:__Start(2)
+AWLarnaca = AIRWING:New("Warehouse Larnaca","AW Larnaca")
+AWLarnaca:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Larnaca))
+AWLarnaca:SetRespawnAfterDestroyed(60*1)
+AWLarnaca:SetTakeoffHot()
+AWLarnaca:Start()
+--AWBeslan:__Start(2)
 
-AWMozdok = AIRWING:New("AW Mozdok","AW Mozdok")
-AWMozdok:SetAirbase(AIRBASE:FindByName("Mozdok"))
-AWMozdok:SetRespawnAfterDestroyed(60*15)
-AWMozdok:SetTakeoffCold()
-AWMozdok:__Start(3)
-
-AWNalchik = AIRWING:New("AW Nalchik","AW Nalchik")
-AWNalchik:SetAirbase(AIRBASE:FindByName("Nalchik"))
-AWNalchik:SetRespawnAfterDestroyed(60*10)
-AWNalchik:SetTakeoffCold()
-AWNalchik:__Start(4)
-
+--[[
 AWFARP_RF_CZ02_02 = AIRWING:New("RF_CZ02_02","AW FARP_CZ01_01")
 AWFARP_RF_CZ02_02:SetAirbase(AIRBASE:FindByName("FARP_CZ01_01"))
 AWFARP_RF_CZ02_02:SetRespawnAfterDestroyed(60*15)
 AWFARP_RF_CZ02_02:SetTakeoffCold()
 AWFARP_RF_CZ02_02:__Start(5)
-
+]]--
 
 -- AIRWING:SetSaveOnMissionEnd(path, filename) Remember! Save the warehouses!
 
+-- Create a Mig21 Squadron for beslan.
+local Larnaca1st=SQUADRON:New("Mig21_A2A_Template", 16, "1st Larnaca Squadron") --Ops.Squadron#SQUADRON
+Larnaca1st:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
+Larnaca1st:AddMissionCapability({AUFTRAG.Type.ALERT5})
+Larnaca1st:SetFuelLowRefuel(true)
+Larnaca1st:SetGrouping(2)
 
--- Create a Su27 Squadron for beslan.
-local beslan1st=SQUADRON:New("Su27 A2A Template", 16, "1st RU Beslan Squadron") --Ops.Squadron#SQUADRON
-beslan1st:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
-beslan1st:AddMissionCapability({AUFTRAG.Type.ALERT5})
-beslan1st:SetFuelLowRefuel(true)
-beslan1st:SetGrouping(2)
-
--- Create a tanker Squadron
+--[[ Create a tanker Squadron
 local mozdok1st = SQUADRON:New("RU_Tanker TEMPLATE",9,"1st Mozdok Tankers")
 mozdok1st:AddMissionCapability({AUFTRAG.Type.TANKER},100)
 mozdok1st:SetGrouping(1)
@@ -44,13 +33,6 @@ mozdok3rd:AddMissionCapability({AUFTRAG.Type.AWACS},100)
 mozdok3rd:SetGrouping(1)
 mozdok3rd:SetFuelLowRefuel(true)
 
--- Create an escort squadron for Mozdok
-local mozdok2nd = SQUADRON:New("Su27 A2A Template", 12, "2nd RU Mozdok Squadron")
-mozdok2nd:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
-mozdok2nd:AddMissionCapability({AUFTRAG.Type.ALERT5})
-mozdok2nd:SetGrouping(2)
-mozdok2nd:SetFuelLowRefuel(true)
-
 -- Create SU25 for Nalchik
 local nalchik1st = SQUADRON:New("Su25 TEMPLATE", 12, "1st Nalchik Squadron")
 nalchik1st:AddMissionCapability({AUFTRAG.Type.SEAD, AUFTRAG.Type.BAI}, 100)
@@ -60,16 +42,13 @@ nalchik1st:SetGrouping(2)
 local farp_cz01_mi28 = SQUADRON:New("Mi28 A2G TEMPLATE", 12, "Farp CZ01 Mi28")
 farp_cz01_mi28:AddMissionCapability({AUFTRAG.Type.BAI}, 100)
 farp_cz01_mi28:SetGrouping(1)
+]]--
 
 -- Add Squadrons
-AWBeslan:AddSquadron(beslan1st)
-AWMozdok:AddSquadron(mozdok1st)  -- Tanker Wing
-AWMozdok:AddSquadron(mozdok2nd)  -- Fighter Wing
-AWMozdok:AddSquadron(mozdok3rd)  -- AWACS Wing
-AWNalchik:AddSquadron(nalchik1st)
-AWFARP_RF_CZ02_02:AddSquadron(farp_cz01_mi28)
+AWLarnaca:AddSquadron(Larnaca1st)
+AWLarnaca:NewPayload("Mig21_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
 
--- Add Payloads
+--[[ Add Payloads
 AWBeslan:NewPayload("Su27 A2A Template", -1, {AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.ALERT5, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
 AWMozdok:NewPayload("RU_Tanker TEMPLATE",-1,{AUFTRAG.Type.TANKER},100)
 AWMozdok:NewPayload("Su27 A2A Template", -1, {AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.ALERT5, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
@@ -77,24 +56,21 @@ AWMozdok:NewPayload("RU_AWACS TEMPLATE",-1,{AUFTRAG.Type.AWACS},100)
 AWNalchik:NewPayload("Su25 TEMPLATE_SEAD", -1 ,{AUFTRAG.Type.SEAD},100)
 AWNalchik:NewPayload("Su25 TEMPLATE_A2G", -1 ,{AUFTRAG.Type.BAI},100)
 AWFARP_RF_CZ02_02:NewPayload("Mi28 A2G TEMPLATE",-1,{AUFTRAG.Type.BAI},100)
+]]--
 
+--[[
 local alert5=AUFTRAG:NewALERT5(AUFTRAG.Type.INTERCEPT)
 alert5:SetRequiredAssets(2)
 alert5:SetRepeat(99)
-AWBeslan:AddMission(alert5)
-alert5:SetRequiredAssets(3)
-AWMozdok:AddMission(alert5)
+AWLarnaca:AddMission(alert5)
 
-local zoneCAP=ZONE:New("RU_CAP_W")
+local zoneCAP=ZONE_POLYGON:New("Red Defense Zone Small", GROUP:FindByName( "ZONE_RU_CAP_E" ))
 local mCAP=AUFTRAG:NewCAP(zoneCAP, 26000, 350) --Planes nur für AIR? -- https://wiki.hoggitworld.com/view/DCS_enum_attributes
 mCAP:SetRepeat(99)
-AWBeslan:AddMission(mCAP)
-local zoneCAP=ZONE:New("RU_CAP_NW")
-local mCAP2=AUFTRAG:NewCAP(zoneCAP, 26000, 350) --Planes nur für AIR? -- https://wiki.hoggitworld.com/view/DCS_enum_attributes
-mCAP2:SetRepeat(99)
-AWMozdok:AddMission(mCAP2)
+AWLarnaca:AddMission(mCAP)
+]]--
 
-
+--[[
 -- Check if tanker-Support is available for RED
 if (true) then
   local zoneTanker1 = ZONE:New("RU_Tanker_1")
@@ -128,4 +104,72 @@ if (true) then
     end
     missionAWACS:SetRepeat(99)
     AWMozdok:AddMission(missionAWACS)
+end
+
+]]--
+
+
+--[[
+-- Define the INTEL
+-- Set up a detection group set. "FilterStart" to include respawns.
+local Red_DetectionSetGroup = SET_GROUP:New():FilterCoalitions("red"):FilterActive():FilterStart()
+-- Red_DetectionSetGroup:FilterPrefixes( { "RU_Recce","RU_EWR" } )
+-- Red_DetectionSetGroup:FilterStart()
+
+-- New INTEL Type
+local RedIntel = INTEL:New(Red_DetectionSetGroup, "red", "KGB")
+RedIntel:SetClusterAnalysis(true, true)
+RedIntel:SetForgetTime(300)
+RedIntel:SetVerbosity(2)
+RedIntel:__Start(2)
+
+-- Restrict to Combat_Zones to avoid cluttering of contacts.
+local SetCombatZones = SET_ZONE:New():FilterPrefixes("CombatSector"):FilterOnce()
+RedIntel:SetAcceptZones(SetCombatZones)
+
+-- Events to create AUFTRAG
+-- Sobald eine Recce-Gruppe ein Ziel gesichtet hat, wird eine Mission erstellt.
+-- possible contact.attribute:
+-- Air_AttackHelo
+-- Air_Fighter
+-- Ground_Infantry
+-- Ground_AAA
+-- Ground_SAM
+-- Air_TransportHelo
+-- Ground_OtherGround
+function RedIntel:OnAfterNewContact(From, Event, To, contact)
+  local trgtGrp = contact.group
+--  trigger.action.outText("KGB: I found a " .. contact.attribute .. " called " .. contact.groupname, 30)
+
+  -- Find zone where contact happened and react
+  local cpos = contact.position or contact.group:GetCoordinate() 
+  local inZone = SetCombatZones:IsCoordinateInZone(cpos)
+
+  if inZone ~= nil then
+    doActionForSector(inZone, contact)  
+  end
+end
+]]--
+
+
+-- Initialize AWACS
+local Red_DetectionSetGroupAWACS = SET_GROUP:New():FilterCoalitions("red"):FilterActive():FilterPrefixes( { "Red_EWR" } ):FilterStart()
+local RedIntelAwacs = INTEL:New(Red_DetectionSetGroupAWACS, "red", "KGB AWACS")
+RedIntelAwacs:SetClusterAnalysis(true, true, true)
+RedIntelAwacs:SetVerbosity(2)
+RedIntelAwacs:SetForgetTime(30)
+RedIntelAwacs:__Start(2)
+
+local SetRedCombatZoneAWACS = ZONE_POLYGON:New("Red Defense Zone Small", GROUP:FindByName( "ZONE_RU_CAP_E" ))
+local RedGoZoneSet = SET_ZONE:New()
+RedGoZoneSet:AddZone(SetRedCombatZoneAWACS)
+RedIntelAwacs:SetAcceptZones(RedGoZoneSet)
+
+function RedIntelAwacs:OnAfterNewContact(From, Event, To, contact)
+  local trgtGrp = contact.group
+  trigger.action.outText("KGB AWACS: I found a " .. contact.attribute .. " called " .. contact.groupname, 30)
+  local targetGroup = GROUP:FindByName(contact.groupname)
+  local mIntercept = AUFTRAG:NewINTERCEPT(targetGroup)
+  mIntercept:SetRepeat(99)
+  AWLarnaca:AddMission(mIntercept)
 end

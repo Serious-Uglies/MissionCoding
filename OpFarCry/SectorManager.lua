@@ -113,16 +113,21 @@ end
 
 
 function setStartSector(_sector)
-
-    initSector(_sector)
-    -- paint all sleeping sectors gray
-    for secItName, secItConfig in pairs( sectorConfig ) do
-        if sectorConfig[secItName]["state"] == "Sleeping" then
-            local theSecZone = ZONE:New(secItName)
-            theSecZone:DrawZone(-1, {0.5,0.5,0.5}, 1, {0.5,0.5,0.5}, 0.2, 2, true)
-        end
+  -- initially paint all sleeping sectors gray
+  for secItName, secItConfig in pairs( sectorConfig ) do
+    if sectorConfig[secItName]["state"] == "Sleeping" then
+        local theSecZone = ZONE:New(secItName)
+        theSecZone:DrawZone(-1, {0.5,0.5,0.5}, 1, {0.5,0.5,0.5}, 0.2, 2, true)
     end
-     
+
+    local theHQ = STATIC:FindByName(sectorConfig[secItName]["sectorHQ"], false)
+    if theHQ ~= nil and theHQ:IsAlive() ~= true then
+      env.info("Sector HQ is dead...")
+      sectorConfig[secItName]["state"] = "Captured"
+    end
+  end
+
+  initSector(_sector)
 end
 
 -- Checks dependend sectors from current one to activate them
@@ -203,7 +208,7 @@ function initSector(_name)
 
   local theHQ = STATIC:FindByName(sectorConfig[_name]["sectorHQ"], false)
 
-  if theHQ == nil then
+  if theHQ == nil or theHQ:GetCoalition() ~= coalition.side.RED  then
     env.info("Sector " .. _name .. " seems to be finished already. Ignoring!")
     checkSector(_name)
     return
