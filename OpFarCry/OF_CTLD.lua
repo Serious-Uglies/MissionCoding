@@ -1,3 +1,7 @@
+
+CTLD_HERCULES.Types = {
+  ["SkyfireTest"] = {['name'] = "SkyfireTestUnit", ['container'] = true}}
+
 -- Instantiate and start a CTLD for the blue side, using helicopter groups named "Helicargo" and alias "Lufttransportbrigade I"
 my_ctld = CTLD:New(coalition.side.BLUE,{"HeliCargo"},"CTLD_Blue")
 
@@ -73,11 +77,12 @@ my_ctld:AddTroopsCargo("Infantry Squad 12",     {"Template_CTLD_Blue_Inf12"},CTL
 my_ctld:AddTroopsCargo("Infantry Squad 8",      {"Template_CTLD_Blue_Inf8"},CTLD_CARGO.Enum.TROOPS,8,80)
 my_ctld:AddTroopsCargo("Infantry Mortar-Team",  {"Template_CTLD_Blue_Mortar"},CTLD_CARGO.Enum.TROOPS,6,110)
 my_ctld:AddTroopsCargo("Infantry JTac Widow",   {"Template_CTLD_Blue_JTac"},CTLD_CARGO.Enum.TROOPS,2,80)
-my_ctld:AddTroopsCargo("Infantry Stinger Pair",   {"Template_CTLD_Blue_Stinger"},CTLD_CARGO.Enum.TROOPS,2,80)
+my_ctld:AddTroopsCargo("Infantry Stinger Pair", {"Template_CTLD_Blue_Stinger"},CTLD_CARGO.Enum.TROOPS,2,80)
 
 ------------------------------ FOB/FARP -- 
---my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 5, 2000)
-my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 1, 500)
+my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 1, 2000)
+my_ctld:AddCratesCargo("FARP",        {"Template_Blue_FARP"},CTLD_CARGO.Enum.FOB, 1, 500)
+--my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FARP_SUPPORT"},CTLD_CARGO.Enum.FOB, 1, 500)
 
 ------------------------------ ATGMs -- 
 my_ctld:AddCratesCargo("ATGM HUMVEE",  {"TEMPLATE_CTLD_Blue_ATGM_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)
@@ -103,36 +108,75 @@ my_ctld:AddCratesCargo("SUP M939",  {"TEMPLATE_CTLD_Blue_LOG_M939"}, CTLD_CARGO.
 my_ctld:AddCTLDZone("CTLD_Kutaisi",CTLD.CargoZoneType.LOAD,SMOKECOLOR.Blue,true,true)
 my_ctld:AddCTLDZone("CTLD_BasselAlAssad",CTLD.CargoZoneType.LOAD,SMOKECOLOR.Blue,true,true)
 
+local herccargo = CTLD_HERCULES:New("blue", "Hercules Test", my_ctld)
 
+-- FARP Radio. First one has 130AM, next 131 and for forth
+local FARPFreq = 130
+local FARPName = 1 -- numbers 1..10
 
-function my_ctld:OnAfterCratesBuild(From,Event,To,Group,Unit,Vehicle)
+local FARPClearnames = {
+  [1]="London",
+  [2]="Dallas",
+  [3]="Paris",
+[4]="Moscow",
+[5]="Berlin",
+[6]="Rome",
+[7]="Madrid",
+[8]="Warsaw",
+[9]="Dublin",
+[10]="Perth",
+}
+
+function BuildAFARP(_cooordinate, _name, _unit)
+  local coord = _cooordinate -- Core.Point#COORDINATE
+
+  local FarpName = ((FARPName-1)%10)+1
+  local FName = FARPClearnames[FarpName]
+  
+  FARPFreq = FARPFreq + 0.15
+  FARPName = FARPName + 1
+  local zone = ZONE_UNIT:New(_name, _unit, 100)
+  my_ctld:AddCTLDZone(_name, CTLD.CargoZoneType.LOAD, SMOKECOLOR.Blue, true, true)
+  local farp = SPAWNSTATIC:NewFromStatic("FARP")
+  farp:InitFARP(FARPName, FARPFreq, 0)
+  farp:InitDead(false)
+  farp:SpawnFromCoordinate(_cooordinate, 0)
+
+--[[
+  local FarpVehicles = SPAWN:NewWithAlias("Template_Blue_FARP_SUPPORT","FARP "..FARPName.." Technicals")
+  FarpVehicles:InitHeading(0)
+  local FarpVCoord = _cooordinate:Translate(38,332)
+  FarpVehicles:SpawnFromCoordinate(FarpVCoord)
+  ]]
+end
+
+function my_ctld:OnAfterCratesBuild(From, Event, To, Group, Unit, Vehicle)
   local vname = Vehicle:GetName()
   local vunit = Vehicle:GetUnit(1)
   local vunitname = vunit:GetName()
-  --Get Unit Type : Wenn FOBCrate dann los
-  if (string.match(vunitname, "FOB")) then
-    local zone = ZONE_UNIT:New(vname,vunit,100)
-    my_ctld:AddCTLDZone(vname,CTLD.CargoZoneType.LOAD,SMOKECOLOR.Blue,true,true)
-    
-    MESSAGE:New("A new FOB has been created!", 15):ToAll()
+  MESSAGE:New("vunitname: " .. vunitname, 15):ToAll()
 
-    else if (string.match(vunitname, "farp")) then
-        MESSAGE:New("A new FARP has been created!", 15):ToAll()
-        local _coordinate = vunit:GetPosition()
-        local farp = SPAWNSTATIC:NewFromStatic("farp"):SpawnFromCoordinate(_coordinate,0)
-        local id = math.random(1,9999)
-        local supportGroup = SPAWN:NewWithAlias("Template_Blue_FARP_Support","Farp" .. id):SpawnFromCoordinate(_coordinate)
-    else if (string.match(vunitname, "JTac")) then
-      if (autolaser ~= nil) then
-        autolaser:SetRecceLaserCode(vunitname, jtacLasercodeDefault)
-      else
-        env.warning("Error setting jtacLasercodeDefault, autolaser is nil")
-      end
+  --Get Unit Type : Wenn FOBCrate dann los
+  if (string.match(vunitname, "FARP")) then
+    local _coordinate = vunit:GetCoord()
+    BuildAFARP(_coordinate, vname, vunit)
+    MESSAGE:New("A new FARP has been created!", 15):ToAll()
+  elseif (string.match(vunitname, "FOB")) then
+    local _coordinate = vunit:GetCoord()
+    BuildAFARP(_coordinate, vname, vunit)
+
+    local zone = ZONE_UNIT:New(vname, vunit, 100)
+    my_ctld:AddCTLDZone(vname, CTLD.CargoZoneType.LOAD, SMOKECOLOR.Blue, true, true)
+  
+    MESSAGE:New("A new FOB has been created!", 15):ToAll()
+  elseif (string.match(vunitname, "JTac")) then
+    if (autolaser ~= nil) then
+      autolaser:SetRecceLaserCode(vunitname, jtacLasercodeDefault)
+    else
+      env.warning("Error setting jtacLasercodeDefault, autolaser is nil")
     end
   end
 end
-end
-
 my_ctld:__Start(5)
 
 
