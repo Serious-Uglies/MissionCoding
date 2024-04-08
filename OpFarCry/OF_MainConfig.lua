@@ -1,5 +1,3 @@
-
-
 -- #region OPTIONS
 UseEnemyAir = true
 UglyPrintOnScreen = false

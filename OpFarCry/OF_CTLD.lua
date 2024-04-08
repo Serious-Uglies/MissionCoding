@@ -1,6 +1,44 @@
+-------------------------
+-- Setup autolaser
 
-CTLD_HERCULES.Types = {
-  ["SkyfireTest"] = {['name'] = "SkyfireTestUnit", ['container'] = true}}
+env.info("Loading Autolase")
+local afacSet = SET_GROUP:New():FilterPrefixes({"AFAC", "JTAC", "afac", "jtac","Jtac","JTac","Afac"}):FilterCoalitions("blue"):FilterStart()
+local Pilotset = SET_CLIENT:New():FilterCoalitions("blue"):FilterActive(true):FilterStart()
+local autolaser = AUTOLASE:New(afacSet, coalition.side.BLUE, "AFAC", Pilotset)
+autolaser:SetNotifyPilots(false) -- defaults to true, also shown if debug == true
+autolaser:SetPilotMenu(true)
+autolaser:SetMaxLasingTargets(1)
+
+function autolaser:OnAfterLasing(From, Event, To, LaserSpot)
+  local _lasingUnit       = LaserSpot.lasingunit
+  local _lasedTarget      = LaserSpot.lasedunit
+  local _lasedCoordinate  = LaserSpot.coordinate
+  env.info(string.format("%s is lasing %s", _lasingUnit:GetName(), _lasedTarget:GetName()))
+  
+  lasedTargets[_lasingUnit:GetName()] = MARKER:New(_lasedTarget:GetCoordinate(),
+          _lasedTarget:GetTypeName() .. " Coordinates\n" .. _lasedTarget:GetCoordinate():ToStringLLDDM() .. "\n" ..
+            _lasedTarget:GetCoordinate():ToStringLLDMS() .. "\n" .. _lasedTarget:GetCoordinate():ToStringMGRS()):ReadOnly()
+          :ToAll()
+
+end
+
+function autolaser:OnAfterLaserTimeout(From, Event, To, UnitName, RecceName)
+  local _lasingUnit     = RecceName
+  lasedTargets[_lasingUnit]:Remove()
+end
+
+function autolaser:OnAfterRecceKIA(From, Event, To, RecceName)
+    local _lasingUnit     = RecceName
+    lasedTargets[_lasingUnit]:Remove()
+end
+
+-----------------------------------------------
+-- Overwrite Hercules Cargo with our own stuff
+
+CTLD_HERCULES.Types["SkyfireTest"] = {['name'] = "SkyfireTestUnit", ['container'] = true}
+
+-----------------------------------------------
+-- Configure our CTLS settings
 
 -- Instantiate and start a CTLD for the blue side, using helicopter groups named "Helicargo" and alias "Lufttransportbrigade I"
 my_ctld = CTLD:New(coalition.side.BLUE,{"HeliCargo"},"CTLD_Blue")
@@ -179,6 +217,8 @@ function my_ctld:OnAfterCratesBuild(From, Event, To, Group, Unit, Vehicle)
 end
 my_ctld:__Start(5)
 
+--------------------------------------------------
+--- Collect old stuff lying around in the mission
 
 env.info("Collecting old CTLD crates")
 MESSAGE:New("Collecting old CTLD crates", 15):ToAll()

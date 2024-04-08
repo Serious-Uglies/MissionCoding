@@ -3,24 +3,29 @@ AWLarnaca:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Larnaca))
 AWLarnaca:SetRespawnAfterDestroyed(60*1)
 AWLarnaca:SetTakeoffHot()
 AWLarnaca:Start()
---AWBeslan:__Start(2)
 
---[[
-AWFARP_RF_CZ02_02 = AIRWING:New("RF_CZ02_02","AW FARP_CZ01_01")
-AWFARP_RF_CZ02_02:SetAirbase(AIRBASE:FindByName("FARP_CZ01_01"))
-AWFARP_RF_CZ02_02:SetRespawnAfterDestroyed(60*15)
-AWFARP_RF_CZ02_02:SetTakeoffCold()
-AWFARP_RF_CZ02_02:__Start(5)
-]]--
+AWPaphos = AIRWING:New("Warehouse Paphos","AW Paphos")
+AWPaphos:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Paphos))
+AWPaphos:SetRespawnAfterDestroyed(60*1)
+AWPaphos:SetTakeoffHot()
+AWPaphos:Start()
 
--- AIRWING:SetSaveOnMissionEnd(path, filename) Remember! Save the warehouses!
 
--- Create a Mig21 Squadron for beslan.
+-- Create a Mig21 Squadron for Larnaca.
 local Larnaca1st=SQUADRON:New("Mig21_A2A_Template", 16, "1st Larnaca Squadron") --Ops.Squadron#SQUADRON
 Larnaca1st:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
 Larnaca1st:AddMissionCapability({AUFTRAG.Type.ALERT5})
 Larnaca1st:SetFuelLowRefuel(true)
 Larnaca1st:SetGrouping(2)
+
+
+-- Create a Mig23 Squadron for Paphos.
+local Paphos1st=SQUADRON:New("Mig23_A2A_Template", 16, "1st Paphos Squadron") --Ops.Squadron#SQUADRON
+Paphos1st:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
+Paphos1st:AddMissionCapability({AUFTRAG.Type.ALERT5})
+Paphos1st:SetFuelLowRefuel(true)
+Paphos1st:SetGrouping(2)
+
 
 --[[ Create a tanker Squadron
 local mozdok1st = SQUADRON:New("RU_Tanker TEMPLATE",9,"1st Mozdok Tankers")
@@ -47,6 +52,11 @@ farp_cz01_mi28:SetGrouping(1)
 -- Add Squadrons
 AWLarnaca:AddSquadron(Larnaca1st)
 AWLarnaca:NewPayload("Mig21_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
+
+AWPaphos:AddSquadron(Paphos1st)
+AWPaphos:NewPayload("Mig23_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
+
+
 
 --[[ Add Payloads
 AWBeslan:NewPayload("Su27 A2A Template", -1, {AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.ALERT5, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
@@ -154,22 +164,47 @@ end
 
 -- Initialize AWACS
 local Red_DetectionSetGroupAWACS = SET_GROUP:New():FilterCoalitions("red"):FilterActive():FilterPrefixes( { "Red_EWR" } ):FilterStart()
-local RedIntelAwacs = INTEL:New(Red_DetectionSetGroupAWACS, "red", "KGB AWACS")
-RedIntelAwacs:SetClusterAnalysis(true, true, true)
-RedIntelAwacs:SetVerbosity(2)
-RedIntelAwacs:SetForgetTime(30)
-RedIntelAwacs:__Start(2)
+local RedIntelAwacsEast = INTEL:New(Red_DetectionSetGroupAWACS, "red", "KGB AWACS East")
+RedIntelAwacsEast:SetClusterAnalysis(true, true, true)
+RedIntelAwacsEast:SetVerbosity(2)
+RedIntelAwacsEast:SetForgetTime(30)
+RedIntelAwacsEast:__Start(2)
 
-local SetRedCombatZoneAWACS = ZONE_POLYGON:New("Red Defense Zone Small", GROUP:FindByName( "ZONE_RU_CAP_E" ))
-local RedGoZoneSet = SET_ZONE:New()
-RedGoZoneSet:AddZone(SetRedCombatZoneAWACS)
-RedIntelAwacs:SetAcceptZones(RedGoZoneSet)
+-- Initialize East Zone
+local SetRedCombatZoneAWACSEast = ZONE_POLYGON:New("Red Defense Zone East", GROUP:FindByName( "ZONE_RU_CAP_E" ))
+local RedGoZoneSetEast = SET_ZONE:New()
+RedGoZoneSetEast:AddZone(SetRedCombatZoneAWACSEast)
+RedIntelAwacsEast:SetAcceptZones(RedGoZoneSetEast)
 
-function RedIntelAwacs:OnAfterNewContact(From, Event, To, contact)
+function RedIntelAwacsEast:OnAfterNewContact(From, Event, To, contact)
   local trgtGrp = contact.group
-  trigger.action.outText("KGB AWACS: I found a " .. contact.attribute .. " called " .. contact.groupname, 30)
+  trigger.action.outText("KGB AWACS East: I found a " .. contact.attribute .. " called " .. contact.groupname, 30)
   local targetGroup = GROUP:FindByName(contact.groupname)
   local mIntercept = AUFTRAG:NewINTERCEPT(targetGroup)
   mIntercept:SetRepeat(99)
   AWLarnaca:AddMission(mIntercept)
 end
+
+-- Initialize West Zone
+local RedIntelAwacsWest = INTEL:New(Red_DetectionSetGroupAWACS, "red", "KGB AWACS West")
+RedIntelAwacsWest:SetClusterAnalysis(true, true, true)
+RedIntelAwacsWest:SetVerbosity(2)
+RedIntelAwacsWest:SetForgetTime(30)
+RedIntelAwacsWest:__Start(2)
+
+local SetRedCombatZoneAWACSWest = ZONE_POLYGON:New("Red Defense Zone West", GROUP:FindByName( "ZONE_RU_CAP_W" ))
+local RedGoZoneSetWest = SET_ZONE:New()
+RedGoZoneSetWest:AddZone(SetRedCombatZoneAWACSWest)
+RedIntelAwacsWest:SetAcceptZones(RedGoZoneSetWest)
+
+function RedIntelAwacsWest:OnAfterNewContact(From, Event, To, contact)
+  local trgtGrp = contact.group
+  trigger.action.outText("KGB AWACS West: I found a " .. contact.attribute .. " called " .. contact.groupname, 30)
+  local targetGroup = GROUP:FindByName(contact.groupname)
+  local mIntercept = AUFTRAG:NewINTERCEPT(targetGroup)
+  mIntercept:SetRepeat(99)
+  AWPaphos:AddMission(mIntercept)
+end
+
+
+

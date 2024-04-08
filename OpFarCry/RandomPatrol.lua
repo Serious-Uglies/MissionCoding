@@ -28,6 +28,8 @@ end
 
 function DoPatrolsInZone(_zone)
   env.info("DoPatrolsInZone: " .. _zone:GetName())
+  return
+--[[
 
   local SetGroups = SET_GROUP:New():FilterCoalitions("red"):FilterZones({_zone}):FilterCategoryGround():FilterPrefixes(patrolPrefix): FilterOnce()
 
@@ -42,5 +44,6 @@ function DoPatrolsInZone(_zone)
   )
 
   TIMER:New(DoPatrolsInZone, _zone):Start(patrolFrequency)
+  ]]
 end
 
