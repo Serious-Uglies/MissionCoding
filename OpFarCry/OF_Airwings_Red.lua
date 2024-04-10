@@ -19,8 +19,8 @@ Larnaca1st:SetFuelLowRefuel(true)
 Larnaca1st:SetGrouping(2)
 
 
--- Create a Mig23 Squadron for Paphos.
-local Paphos1st=SQUADRON:New("Mig23_A2A_Template", 16, "1st Paphos Squadron") --Ops.Squadron#SQUADRON
+-- Create a Mig29 Squadron for Paphos.
+local Paphos1st=SQUADRON:New("Mig29_A2A_Template", 16, "1st Paphos Squadron") --Ops.Squadron#SQUADRON
 Paphos1st:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
 Paphos1st:AddMissionCapability({AUFTRAG.Type.ALERT5})
 Paphos1st:SetFuelLowRefuel(true)
@@ -54,7 +54,7 @@ AWLarnaca:AddSquadron(Larnaca1st)
 AWLarnaca:NewPayload("Mig21_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
 
 AWPaphos:AddSquadron(Paphos1st)
-AWPaphos:NewPayload("Mig23_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
+AWPaphos:NewPayload("Mig29_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
 
 
 
