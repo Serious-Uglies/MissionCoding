@@ -112,12 +112,40 @@ function initZone(_sector, _name)
 end
 
 
+function enableAllInSector(_sectorName, _enable)
+  env.info("enableAllInSector: " .. _sectorName)
+
+  local setState = _enable or true
+
+  local theSecZone = ZONE:New(_sectorName)
+  local SetGroupsGround = SET_GROUP:New():FilterCoalitions("red"):FilterZones({theSecZone}):FilterCategoryGround():FilterOnce() -- Todo: Nur lebende enthalten? Laut Applevangelist ja; Active notwendig?
+
+  SetGroupsGround:ForEachGroup(function(groupToSwitch)
+    env.info("Switching group: " .. groupToSwitch:GetName())
+
+    if string.find(groupToSwitch:GetName(), "IADS") then
+      env.info(" - Keep IADS on!")
+    else
+      local bString = "false"
+      if _enable then
+        bString = "true"
+      end
+
+      groupToSwitch:SetAIOnOff(_enable)
+      env.info(" - switching: " .. bString)
+    end
+  end
+  )
+end
+
+
 function setStartSector(_sector)
   -- initially paint all sleeping sectors gray
   for secItName, secItConfig in pairs( sectorConfig ) do
     if sectorConfig[secItName]["state"] == "Sleeping" then
         local theSecZone = ZONE:New(secItName)
         theSecZone:DrawZone(-1, {0.5,0.5,0.5}, 1, {0.5,0.5,0.5}, 0.2, 2, true)
+        enableAllInSector(secItName, false)
     end
 
     local theHQ = STATIC:FindByName(sectorConfig[secItName]["sectorHQ"], false)
@@ -204,6 +232,8 @@ end
 
 -- Initialize the sector from the name and by it's configuration
 function initSector(_name)
+  enableAllInSector(_name, true)
+
   env.info("InitSector - " .. _name)
 
   local theHQ = STATIC:FindByName(sectorConfig[_name]["sectorHQ"], false)

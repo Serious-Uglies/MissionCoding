@@ -272,10 +272,10 @@ function FactoryDeathRecorder:OnEventDead( _eventData )
     UglyPrintDebug("Killed members of deadGroup: " .. deadGroup:GetName())
     UglyPrintDebug("Group has " ..deadGroup:CountAliveUnits() .. " alive units.")
 
-    if string.find(deadGroup:GetName(), "Static") ~= nil then
+    if string.find(string.lower(deadGroup:GetName()), "static") ~= nil then
       UglyPrintDebug("Group is declared as static and will not respawn.")
       return
-    elseif string.find(deadGroup:GetName(), "ONCE") ~= nil then
+    elseif string.find(string.lower(deadGroup:GetName()), "once") ~= nil then
       UglyPrintDebug("Group is declared as ONCE and will not respawn.")
       return
     elseif string.find(deadGroup:GetName(), "Infantry_Respawn") ~= nil then

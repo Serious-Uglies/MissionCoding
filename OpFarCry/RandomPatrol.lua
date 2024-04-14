@@ -28,8 +28,6 @@ end
 
 function DoPatrolsInZone(_zone)
   env.info("DoPatrolsInZone: " .. _zone:GetName())
-  return
---[[
 
   local SetGroups = SET_GROUP:New():FilterCoalitions("red"):FilterZones({_zone}):FilterCategoryGround():FilterPrefixes(patrolPrefix): FilterOnce()
 
@@ -43,7 +41,7 @@ function DoPatrolsInZone(_zone)
   end
   )
 
+  -- recheck after some time, even if no patrols might be added now, as they might reappear from factories.
   TIMER:New(DoPatrolsInZone, _zone):Start(patrolFrequency)
-  ]]
 end
 

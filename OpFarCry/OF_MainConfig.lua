@@ -21,7 +21,7 @@ sectorConfig = {
   ["CombatSector-02"] = 
     {
       name = "Corridor", 
-      airwing =  nil, 
+      airwing =  AWLarnaca, 
       zonePrefix = "OpsZone-02-",
       opszones = {}, 
       factoryPrefix = "RF_CZ02",
@@ -33,7 +33,7 @@ sectorConfig = {
   ["CombatSector-03"] = 
     {
       name = "Gecitkale", 
-      airwing =  nil, 
+      airwing =  AWLarnaca, 
       zonePrefix = "OpsZone-03-",
       opszones = {}, 
       factoryPrefix = "RF_CZ02",
@@ -45,7 +45,7 @@ sectorConfig = {
   ["CombatSector-04"] = 
     {
       name = "Famagusta", 
-      airwing =  nil, 
+      airwing =  AWLarnaca, 
       zonePrefix = "OpsZone-04-",
       opszones = {}, 
       factoryPrefix = "RF_CZ02",
@@ -57,7 +57,7 @@ sectorConfig = {
   ["CombatSector-05"] = 
     {
       name = "Kingsfield", 
-      airwing =  nil, 
+      airwing =  AWLarnaca, 
       zonePrefix = "OpsZone-05-",
       opszones = {}, 
       factoryPrefix = "RF_CZ02",
@@ -69,7 +69,7 @@ sectorConfig = {
   ["CombatSector-06"] = 
     {
       name = "Kyrenia", 
-      airwing =  nil, 
+      airwing =  AWLarnaca, 
       zonePrefix = "OpsZone-06-",
       opszones = {}, 
       factoryPrefix = "RF_CZ02",
@@ -81,7 +81,7 @@ sectorConfig = {
   ["CombatSector-07"] = 
     {
       name = "Nicosia", 
-      airwing =  nil, 
+      airwing =  AWLarnaca, 
       zonePrefix = "OpsZone-07-",
       opszones = {}, 
       factoryPrefix = "RF_CZ02",

@@ -14,9 +14,14 @@ AWPaphos:Start()
 -- Create a Mig21 Squadron for Larnaca.
 local Larnaca1st=SQUADRON:New("Mig21_A2A_Template", 16, "1st Larnaca Squadron") --Ops.Squadron#SQUADRON
 Larnaca1st:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
-Larnaca1st:AddMissionCapability({AUFTRAG.Type.ALERT5})
 Larnaca1st:SetFuelLowRefuel(true)
 Larnaca1st:SetGrouping(2)
+
+-- Create a Mig21 Squadron for Larnaca.
+local Larnaca2nd=SQUADRON:New("C101CC_A2G_Template", 16, "2ndt Larnaca Squadron") --Ops.Squadron#SQUADRON
+Larnaca2nd:AddMissionCapability({AUFTRAG.Type.BAI}, 100)
+Larnaca2nd:SetFuelLowRefuel(true)
+Larnaca2nd:SetGrouping(2)
 
 
 -- Create a Mig29 Squadron for Paphos.
@@ -51,7 +56,9 @@ farp_cz01_mi28:SetGrouping(1)
 
 -- Add Squadrons
 AWLarnaca:AddSquadron(Larnaca1st)
+AWLarnaca:AddSquadron(Larnaca2nd)
 AWLarnaca:NewPayload("Mig21_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
+AWLarnaca:NewPayload("C101CC_A2G_Template",-1,{AUFTRAG.Type.BAI},65)
 
 AWPaphos:AddSquadron(Paphos1st)
 AWPaphos:NewPayload("Mig29_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
@@ -163,7 +170,7 @@ end
 
 
 -- Initialize AWACS
-local Red_DetectionSetGroupAWACS = SET_GROUP:New():FilterCoalitions("red"):FilterActive():FilterPrefixes( { "Red_EWR" } ):FilterStart()
+local Red_DetectionSetGroupAWACS = SET_GROUP:New():FilterCoalitions("red"):FilterActive():FilterPrefixes( { "IADS_red_EWR" } ):FilterStart()
 local RedIntelAwacsEast = INTEL:New(Red_DetectionSetGroupAWACS, "red", "KGB AWACS East")
 RedIntelAwacsEast:SetClusterAnalysis(true, true, true)
 RedIntelAwacsEast:SetVerbosity(2)
@@ -180,9 +187,19 @@ function RedIntelAwacsEast:OnAfterNewContact(From, Event, To, contact)
   local trgtGrp = contact.group
   trigger.action.outText("KGB AWACS East: I found a " .. contact.attribute .. " called " .. contact.groupname, 30)
   local targetGroup = GROUP:FindByName(contact.groupname)
-  local mIntercept = AUFTRAG:NewINTERCEPT(targetGroup)
-  mIntercept:SetRepeat(99)
-  AWLarnaca:AddMission(mIntercept)
+
+  if (contact.attribute == "Ground_APC") or (contact.attribute == "Ground_Artillery") or
+    (contact.attribute == "Ground_Truck") or (contact.attribute == "Ground_Tank") or
+    (contact.attribute == "Ground_IFV") then
+
+    local mission = AUFTRAG:NewBAI(targetGroup, nil)
+    mission:SetRepeatOnFailure(6)
+    AWLarnaca:AddMission(mission)
+  else
+    local mIntercept = AUFTRAG:NewINTERCEPT(targetGroup)
+    mIntercept:SetRepeat(99)
+    AWLarnaca:AddMission(mIntercept)
+  end
 end
 
 -- Initialize West Zone
