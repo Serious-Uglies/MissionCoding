@@ -23,16 +23,41 @@ AWIncirlik:NewPayload("TEMPLATE_AWACS_ONE",-1,{AUFTRAG.Type.ORBIT, AUFTRAG.Type.
 
 
 ---------------------------------------
+-- Tanker
+
+local TANKER_E_BOOM = SQUADRON:New("TEMPLATE_TANKER_BOOM",10,"Tanker Boom")
+TANKER_E_BOOM:SetCallsign(CALLSIGN.Tanker.Arco, 1)
+TANKER_E_BOOM:AddMissionCapability({AUFTRAG.Type.ORBIT, AUFTRAG.Type.TANKER},100)
+TANKER_E_BOOM:SetFuelLowRefuel(true)
+TANKER_E_BOOM:SetFuelLowThreshold(0.2)
+TANKER_E_BOOM:SetTurnoverTime(10,20)
+TANKER_E_BOOM:SetTakeoffHot()
+TANKER_E_BOOM:SetRadio(341.0)
+AWIncirlik:AddSquadron(TANKER_E_BOOM)
+AWIncirlik:NewPayload("TEMPLATE_TANKER_BOOM",-1,{AUFTRAG.Type.ORBIT, AUFTRAG.Type.TANKER},100)
+
+local TANKER_E_BASKET = SQUADRON:New("TEMPLATE_TANKER_BASKET",10,"Tanker Basket")
+TANKER_E_BASKET:SetCallsign(CALLSIGN.Tanker.Texaco, 1)
+TANKER_E_BASKET:AddMissionCapability({AUFTRAG.Type.ORBIT, AUFTRAG.Type.TANKER},100)
+TANKER_E_BASKET:SetFuelLowRefuel(true)
+TANKER_E_BASKET:SetFuelLowThreshold(0.2)
+TANKER_E_BASKET:SetTurnoverTime(10,20)
+TANKER_E_BASKET:SetTakeoffHot()
+TANKER_E_BASKET:SetRadio(331.0)
+AWIncirlik:AddSquadron(TANKER_E_BASKET)
+AWIncirlik:NewPayload("TEMPLATE_TANKER_BASKET",-1,{AUFTRAG.Type.ORBIT, AUFTRAG.Type.TANKER},100)
+
+---------------------------------------
 -- Squadrons
 
-local AWACS_E_One_ESCORT = SQUADRON:New("TEMPLATE_AWACS_ESCORT",4,"Escorts Awacs East")
-AWACS_E_One_ESCORT:AddMissionCapability({AUFTRAG.Type.ESCORT})
-AWACS_E_One_ESCORT:SetFuelLowRefuel(true)
-AWACS_E_One_ESCORT:SetFuelLowThreshold(0.3)
-AWACS_E_One_ESCORT:SetTurnoverTime(10,20)
-AWACS_E_One_ESCORT:SetTakeoffHot()
-AWACS_E_One_ESCORT:SetRadio(255,radio.modulation.AM)
-AWIncirlik:AddSquadron(AWACS_E_One_ESCORT)
+local INCIRLIC_ESCORT = SQUADRON:New("TEMPLATE_AWACS_ESCORT",10,"Escorts Awacs East")
+INCIRLIC_ESCORT:AddMissionCapability({AUFTRAG.Type.ESCORT})
+INCIRLIC_ESCORT:SetFuelLowRefuel(true)
+INCIRLIC_ESCORT:SetFuelLowThreshold(0.3)
+INCIRLIC_ESCORT:SetTurnoverTime(10,20)
+INCIRLIC_ESCORT:SetTakeoffHot()
+INCIRLIC_ESCORT:SetRadio(255)
+AWIncirlik:AddSquadron(INCIRLIC_ESCORT)
 AWIncirlik:NewPayload("TEMPLATE_AWACS_ESCORT",-1,{AUFTRAG.Type.ESCORT},100)
 
 
@@ -42,10 +67,42 @@ INCIRLIK_CAP:SetFuelLowRefuel(true)
 INCIRLIK_CAP:SetFuelLowThreshold(0.3)
 INCIRLIK_CAP:SetTurnoverTime(10,20)
 INCIRLIK_CAP:SetTakeoffHot()
-INCIRLIK_CAP:SetRadio(255,radio.modulation.AM)
+INCIRLIK_CAP:SetRadio(255)
 AWIncirlik:AddSquadron(INCIRLIK_CAP)
 AWIncirlik:NewPayload("TEMPLATE_INCIRLIK_CAP",-1,{AUFTRAG.Type.ALERT5,AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},100)
 
+
+---------------------------------------------------------------------
+-- Special Missions
+
+-- AWACS mission. Orbit at 30000 ft, 300 KIAS, heading 145 for 20 NM.
+local zoneEastOrbit=ZONE:New("AWACS_EAST_ORBIT")
+local awacsOrbitTask = AUFTRAG:NewORBIT(zoneEastOrbit:GetCoordinate(), 30000, 300, 145, 20)
+awacsOrbitTask:SetRequiredEscorts(2, 2, AUFTRAG.Type.ESCORT, "Planes", 40)
+awacsOrbitTask:SetRepeat(99)
+-- Assign mission to pilot.
+AWIncirlik:AddMission(awacsOrbitTask)
+
+-- Basket tanker mission. Orbit at 20000 ft, 300 KIAS, heading 145 for 20 NM.
+local zoneBasketOrbit=ZONE:New("TANKER_EAST_BASKET")
+local tankerBasketOrbitTask = AUFTRAG:NewTANKER(zoneBasketOrbit:GetCoordinate(), 22000, 300, 160, 30, 1) -- 1=Basket
+tankerBasketOrbitTask:SetRequiredEscorts(2, 2, AUFTRAG.Type.ESCORT, "Planes", 40)
+tankerBasketOrbitTask:SetRepeat(99)
+tankerBasketOrbitTask:SetTACAN(63, "ARC")
+-- Assign mission to pilot.
+AWIncirlik:AddMission(tankerBasketOrbitTask)
+
+-- Boom tanker mission. Orbit at 25000 ft, 300 KIAS, heading 145 for 20 NM.
+local zoneBoomOrbit=ZONE:New("TANKER_EAST_BOOM")
+local tankerBoomOrbitTask = AUFTRAG:NewTANKER(zoneBoomOrbit:GetCoordinate(), 27000, 300, 160, 30, 0) -- 1=boom
+tankerBoomOrbitTask:SetRequiredEscorts(2, 2, AUFTRAG.Type.ESCORT, "Planes", 40)
+tankerBoomOrbitTask:SetRepeat(99)
+tankerBoomOrbitTask:SetTACAN(64, "TEX")
+-- Assign mission to pilot.
+AWIncirlik:AddMission(tankerBoomOrbitTask)
+
+
+--[[
 
 -- Set up AWACS called "AWACS North". It will use the AwacsAW Airwing set up above and be of the "blue" coalition. Homebase is Kutaisi.
 -- The AWACS Orbit Zone is a round zone set in the mission editor named "Awacs Orbit", the FEZ is a Polygon-Zone called "Rock" we have also
@@ -60,13 +117,15 @@ testawacs:SetAwacsDetails(CALLSIGN.AWACS.Focus,1,30,300,88,25)
 -- Set up SRS on port 5010 - change the below to your path and port
 --testawacs:SetSRS("C:\\Program Files\\DCS-SimpleRadio-Standalone","female","en-GB",5010)
 -- Our CAP flight will have the callsign "Ford", we want 4 AI planes, Time-On-Station is four hours, doing 300 kn IAS.
-testawacs:SetAICAPDetails(CALLSIGN.Aircraft.Ford,4,4,300)
+testawacs:SetAICAPDetails(CALLSIGN.Aircraft.Ford,2,4,300)
 -- We're modern (default), e.g. we have EPLRS and get more fill-in information on detections
 testawacs:SetModernEra()
 -- And start
 testawacs:__Start(5)
 
---[[
+
+
+
 
 
 -- Patrol zone.
