@@ -1,3 +1,89 @@
+
+---------------------------------------
+-- Airbases
+
+local AWIncirlik = AIRWING:New("Warehouse Incirlik","Airwing Incirlik")
+AWIncirlik:SetMarker(false)
+AWIncirlik:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Incirlik))
+AWIncirlik:SetRespawnAfterDestroyed(900)
+AWIncirlik:SetTakeoffHot()
+AWIncirlik:__Start(2)
+
+---------------------------------------
+-- Awacs
+
+local AWACS_E_One = SQUADRON:New("TEMPLATE_AWACS_ONE",2,"Awacs East")
+AWACS_E_One:AddMissionCapability({AUFTRAG.Type.ORBIT, AUFTRAG.Type.AWACS},100)
+AWACS_E_One:SetFuelLowRefuel(true)
+AWACS_E_One:SetFuelLowThreshold(0.2)
+AWACS_E_One:SetTurnoverTime(10,20)
+AWACS_E_One:SetTakeoffHot()
+AWIncirlik:AddSquadron(AWACS_E_One)
+AWIncirlik:NewPayload("TEMPLATE_AWACS_ONE",-1,{AUFTRAG.Type.ORBIT, AUFTRAG.Type.AWACS},100)
+
+
+---------------------------------------
+-- Squadrons
+
+local AWACS_E_One_ESCORT = SQUADRON:New("TEMPLATE_AWACS_ESCORT",4,"Escorts Awacs East")
+AWACS_E_One_ESCORT:AddMissionCapability({AUFTRAG.Type.ESCORT})
+AWACS_E_One_ESCORT:SetFuelLowRefuel(true)
+AWACS_E_One_ESCORT:SetFuelLowThreshold(0.3)
+AWACS_E_One_ESCORT:SetTurnoverTime(10,20)
+AWACS_E_One_ESCORT:SetTakeoffHot()
+AWACS_E_One_ESCORT:SetRadio(255,radio.modulation.AM)
+AWIncirlik:AddSquadron(AWACS_E_One_ESCORT)
+AWIncirlik:NewPayload("TEMPLATE_AWACS_ESCORT",-1,{AUFTRAG.Type.ESCORT},100)
+
+
+local INCIRLIK_CAP = SQUADRON:New("TEMPLATE_INCIRLIK_CAP",10,"Incirlik CAP")
+INCIRLIK_CAP:AddMissionCapability({AUFTRAG.Type.ALERT5, AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},80)
+INCIRLIK_CAP:SetFuelLowRefuel(true)
+INCIRLIK_CAP:SetFuelLowThreshold(0.3)
+INCIRLIK_CAP:SetTurnoverTime(10,20)
+INCIRLIK_CAP:SetTakeoffHot()
+INCIRLIK_CAP:SetRadio(255,radio.modulation.AM)
+AWIncirlik:AddSquadron(INCIRLIK_CAP)
+AWIncirlik:NewPayload("TEMPLATE_INCIRLIK_CAP",-1,{AUFTRAG.Type.ALERT5,AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},100)
+
+
+-- Set up AWACS called "AWACS North". It will use the AwacsAW Airwing set up above and be of the "blue" coalition. Homebase is Kutaisi.
+-- The AWACS Orbit Zone is a round zone set in the mission editor named "Awacs Orbit", the FEZ is a Polygon-Zone called "Rock" we have also
+-- set up in the mission editor with a late activated helo named "Rock#ZONE_POLYGON". Note this also sets the BullsEye to be referenced as "Rock".
+-- The CAP station zone is called "Fremont". We will be on 255 AM.
+local fezZone = ZONE_POLYGON:New("FEZ_AWACS_EAST", GROUP:FindByName( "FEZ_AWACS_EAST" ))
+local testawacs = AWACS:New("AWACS East",AWIncirlik,"blue",AIRBASE.Syria.Incirlik,"AWACS_EAST_ORBIT", fezZone,"CAP_EAST_ORBIT",255,radio.modulation.AM )
+-- set two escorts
+testawacs:SetEscort(2)
+-- Callsign will be "Focus". We'll be a Angels 30, doing 300 knots, orbit leg to 88deg with a length of 25nm.
+testawacs:SetAwacsDetails(CALLSIGN.AWACS.Focus,1,30,300,88,25)
+-- Set up SRS on port 5010 - change the below to your path and port
+--testawacs:SetSRS("C:\\Program Files\\DCS-SimpleRadio-Standalone","female","en-GB",5010)
+-- Our CAP flight will have the callsign "Ford", we want 4 AI planes, Time-On-Station is four hours, doing 300 kn IAS.
+testawacs:SetAICAPDetails(CALLSIGN.Aircraft.Ford,4,4,300)
+-- We're modern (default), e.g. we have EPLRS and get more fill-in information on detections
+testawacs:SetModernEra()
+-- And start
+testawacs:__Start(5)
+
+--[[
+
+
+-- Patrol zone.
+local zoneAlpha=ZONE:New("AWACS_EAST_ORBIT")
+-- AWACS mission. Orbit at 15000 ft, 350 KIAS, heading 270 for 20 NM.
+local auftrag=AUFTRAG:NewAWACS(zoneAlpha:GetCoordinate(), 23000, 350, 145, 20)
+auftrag:SetRadio(251)       -- Set radio to 225 MHz AM.
+auftrag:SetRequiredEscorts(1, 1, AUFTRAG.Type.ESCORT, "Planes", 40)
+auftrag:SetRepeat(99)
+-- Assign mission to pilot.
+AWIncirlik:AddMission(auftrag)
+
+
+
+
+
+
 AWNavyBoys = AIRWING:New("GeorgeWashington","NavyBoys")
 AWNavyBoys:SetAirbase(AIRBASE:FindByName("GeorgeWashington"))
 AWNavyBoys:SetRespawnAfterDestroyed(900)
@@ -81,3 +167,4 @@ squadronTransportHelo1:AddMissionCapability({AUFTRAG.Type.ORBIT, AUFTRAG.Type.HO
 AwRotary:AddSquadron(squadronTransportHelo1)
 AwRotary:NewPayload("FrpSplyHelo",-1,{AUFTRAG.Type.ORBIT, AUFTRAG.Type.HOVER},100)
 
+]]
