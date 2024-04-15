@@ -5,7 +5,7 @@
 local AWIncirlik = AIRWING:New("Warehouse Incirlik","Airwing Incirlik")
 AWIncirlik:SetMarker(false)
 AWIncirlik:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Incirlik))
-AWIncirlik:SetRespawnAfterDestroyed(900)
+AWIncirlik:SetRespawnAfterDestroyed(300)
 AWIncirlik:SetTakeoffHot()
 AWIncirlik:__Start(2)
 
@@ -26,7 +26,6 @@ AWIncirlik:NewPayload("TEMPLATE_AWACS_ONE",-1,{AUFTRAG.Type.ORBIT, AUFTRAG.Type.
 -- Tanker
 
 local TANKER_E_BOOM = SQUADRON:New("TEMPLATE_TANKER_BOOM",10,"Tanker Boom")
-TANKER_E_BOOM:SetCallsign(CALLSIGN.Tanker.Arco, 1)
 TANKER_E_BOOM:AddMissionCapability({AUFTRAG.Type.ORBIT, AUFTRAG.Type.TANKER},100)
 TANKER_E_BOOM:SetFuelLowRefuel(true)
 TANKER_E_BOOM:SetFuelLowThreshold(0.2)
@@ -37,7 +36,6 @@ AWIncirlik:AddSquadron(TANKER_E_BOOM)
 AWIncirlik:NewPayload("TEMPLATE_TANKER_BOOM",-1,{AUFTRAG.Type.ORBIT, AUFTRAG.Type.TANKER},100)
 
 local TANKER_E_BASKET = SQUADRON:New("TEMPLATE_TANKER_BASKET",10,"Tanker Basket")
-TANKER_E_BASKET:SetCallsign(CALLSIGN.Tanker.Texaco, 1)
 TANKER_E_BASKET:AddMissionCapability({AUFTRAG.Type.ORBIT, AUFTRAG.Type.TANKER},100)
 TANKER_E_BASKET:SetFuelLowRefuel(true)
 TANKER_E_BASKET:SetFuelLowThreshold(0.2)
@@ -74,23 +72,45 @@ AWIncirlik:NewPayload("TEMPLATE_INCIRLIK_CAP",-1,{AUFTRAG.Type.ALERT5,AUFTRAG.Ty
 
 ---------------------------------------------------------------------
 -- Special Missions
+-- staggered setup of AI planes to give scheduler time to catch up with spawning
 
--- AWACS mission. Orbit at 30000 ft, 300 KIAS, heading 145 for 20 NM.
-local zoneEastOrbit=ZONE:New("AWACS_EAST_ORBIT")
-local awacsOrbitTask = AUFTRAG:NewORBIT(zoneEastOrbit:GetCoordinate(), 30000, 300, 145, 20)
-awacsOrbitTask:SetRequiredEscorts(2, 2, AUFTRAG.Type.ESCORT, "Planes", 40)
-awacsOrbitTask:SetRepeat(99)
--- Assign mission to pilot.
-AWIncirlik:AddMission(awacsOrbitTask)
 
--- Basket tanker mission. Orbit at 20000 ft, 300 KIAS, heading 145 for 20 NM.
-local zoneBasketOrbit=ZONE:New("TANKER_EAST_BASKET")
-local tankerBasketOrbitTask = AUFTRAG:NewTANKER(zoneBasketOrbit:GetCoordinate(), 22000, 300, 160, 30, 1) -- 1=Basket
-tankerBasketOrbitTask:SetRequiredEscorts(2, 2, AUFTRAG.Type.ESCORT, "Planes", 40)
-tankerBasketOrbitTask:SetRepeat(99)
-tankerBasketOrbitTask:SetTACAN(63, "ARC")
--- Assign mission to pilot.
-AWIncirlik:AddMission(tankerBasketOrbitTask)
+function startIncirlicCAP()
+    -- AWACS mission. Orbit at 30000 ft, 300 KIAS, heading 145 for 20 NM.
+    local zoneCAP=ZONE:New("CAP_INCIRLIK_NORTH")
+    local zoneCAPOrbit=ZONE:New("CAP_INCIRLIK_NORTH_ORBIT")
+    
+    local capTask = AUFTRAG:NewCAP(zoneCAP, 25000, 300, zoneCAPOrbit:GetCoordinate(), 90, 25)
+    capTask:SetRequiredAssets(2, 2)
+    capTask:SetRepeat(99)
+    -- Assign mission to pilot.
+    AWIncirlik:AddMission(capTask)
+end
+
+function startAWACS()
+    -- AWACS mission. Orbit at 30000 ft, 300 KIAS, heading 145 for 20 NM.
+    local zoneEastOrbit=ZONE:New("AWACS_EAST_ORBIT")
+    local awacsOrbitTask = AUFTRAG:NewORBIT(zoneEastOrbit:GetCoordinate(), 30000, 300, 145, 20)
+    awacsOrbitTask:SetRequiredEscorts(2, 2, AUFTRAG.Type.ESCORT, "Planes", 40)
+    awacsOrbitTask:SetRepeat(99)
+    -- Assign mission to pilot.
+    AWIncirlik:AddMission(awacsOrbitTask)
+
+    TIMER:New(startIncirlicCAP):Start(180)
+end
+
+function startTankerBasket()
+    -- Basket tanker mission. Orbit at 20000 ft, 300 KIAS, heading 145 for 20 NM.
+    local zoneBasketOrbit=ZONE:New("TANKER_EAST_BASKET")
+    local tankerBasketOrbitTask = AUFTRAG:NewTANKER(zoneBasketOrbit:GetCoordinate(), 22000, 300, 160, 30, 1) -- 1=Basket
+    tankerBasketOrbitTask:SetRequiredEscorts(2, 2, AUFTRAG.Type.ESCORT, "Planes", 40)
+    tankerBasketOrbitTask:SetRepeat(99)
+    tankerBasketOrbitTask:SetTACAN(63, "ARC")
+    -- Assign mission to pilot.
+    AWIncirlik:AddMission(tankerBasketOrbitTask)
+
+    TIMER:New(startAWACS):Start(180)
+end
 
 -- Boom tanker mission. Orbit at 25000 ft, 300 KIAS, heading 145 for 20 NM.
 local zoneBoomOrbit=ZONE:New("TANKER_EAST_BOOM")
@@ -100,6 +120,38 @@ tankerBoomOrbitTask:SetRepeat(99)
 tankerBoomOrbitTask:SetTACAN(64, "TEX")
 -- Assign mission to pilot.
 AWIncirlik:AddMission(tankerBoomOrbitTask)
+
+-- delayed start of basket
+TIMER:New(startTankerBasket):Start(180)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--[[
+-- AWACS mission. Orbit at 30000 ft, 300 KIAS, heading 145 for 20 NM.
+local zoneEastOrbit=ZONE:New("AWACS_EAST_ORBIT")
+local awacsOrbitTask = AUFTRAG:NewORBIT(zoneEastOrbit:GetCoordinate(), 30000, 300, 145, 20)
+awacsOrbitTask:SetRequiredEscorts(2, 2, AUFTRAG.Type.ESCORT, "Planes", 40)
+awacsOrbitTask:SetRepeat(99)
+-- Assign mission to pilot.
+AWIncirlik:AddMission(awacsOrbitTask)
+
+-- delayed start of boom
+TIMER:New(startTankerBoom):Start(160)
+]]
+
 
 
 --[[

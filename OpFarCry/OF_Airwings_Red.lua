@@ -1,15 +1,11 @@
+-----------------------------
+-- Larnaca
+
 AWLarnaca = AIRWING:New("Warehouse Larnaca","AW Larnaca")
 AWLarnaca:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Larnaca))
-AWLarnaca:SetRespawnAfterDestroyed(60*1)
+AWLarnaca:SetRespawnAfterDestroyed(60*5)
 AWLarnaca:SetTakeoffHot()
 AWLarnaca:Start()
-
-AWPaphos = AIRWING:New("Warehouse Paphos","AW Paphos")
-AWPaphos:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Paphos))
-AWPaphos:SetRespawnAfterDestroyed(60*1)
-AWPaphos:SetTakeoffHot()
-AWPaphos:Start()
-
 
 -- Create a Mig21 Squadron for Larnaca.
 local Larnaca1st=SQUADRON:New("Mig21_A2A_Template", 16, "1st Larnaca Squadron") --Ops.Squadron#SQUADRON
@@ -24,13 +20,91 @@ Larnaca2nd:SetFuelLowRefuel(true)
 Larnaca2nd:SetGrouping(2)
 
 
+-- Add Squadrons
+AWLarnaca:AddSquadron(Larnaca1st)
+AWLarnaca:AddSquadron(Larnaca2nd)
+AWLarnaca:NewPayload("Mig21_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
+AWLarnaca:NewPayload("C101CC_A2G_Template",-1,{AUFTRAG.Type.BAI},65)
+
+
+-----------------------------
+-- Paphos
+
+AWPaphos = AIRWING:New("Warehouse Paphos","AW Paphos")
+AWPaphos:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Paphos))
+AWPaphos:SetRespawnAfterDestroyed(60*5)
+AWPaphos:SetTakeoffHot()
+AWPaphos:Start()
+
 -- Create a Mig29 Squadron for Paphos.
 local Paphos1st=SQUADRON:New("Mig29_A2A_Template", 16, "1st Paphos Squadron") --Ops.Squadron#SQUADRON
 Paphos1st:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
-Paphos1st:AddMissionCapability({AUFTRAG.Type.ALERT5})
 Paphos1st:SetFuelLowRefuel(true)
 Paphos1st:SetGrouping(2)
 
+AWPaphos:AddSquadron(Paphos1st)
+AWPaphos:NewPayload("Mig29_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
+
+
+-----------------------------
+-- Gazipasa
+
+AWGazipasa = AIRWING:New("Warehouse Gazipasa","AW Gazipasa")
+AWGazipasa:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Gazipasa))
+AWGazipasa:SetRespawnAfterDestroyed(60*5)
+AWGazipasa:SetTakeoffHot()
+AWGazipasa:Start()
+
+-- Create a Mig29 Squadron for Gazipasa.
+local Gazipasa1st=SQUADRON:New("Mig29_CAP_GAZIPASA", 24, "1st Gazipasa Squadron") --Ops.Squadron#SQUADRON
+Gazipasa1st:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
+Gazipasa1st:SetFuelLowRefuel(true)
+Gazipasa1st:SetGrouping(2)
+
+AWGazipasa:AddSquadron(Gazipasa1st)
+AWGazipasa:NewPayload("Mig29_CAP_GAZIPASA",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
+
+
+local AWACS_GAZIPASA = SQUADRON:New("AWACS_GAZIPASA",16,"Awacs Gazipasa")
+AWACS_GAZIPASA:AddMissionCapability({AUFTRAG.Type.ORBIT, AUFTRAG.Type.AWACS},100)
+AWACS_GAZIPASA:SetFuelLowRefuel(true)
+AWACS_GAZIPASA:SetFuelLowThreshold(0.2)
+AWACS_GAZIPASA:SetTurnoverTime(10,20)
+AWACS_GAZIPASA:SetTakeoffHot()
+AWGazipasa:AddSquadron(AWACS_GAZIPASA)
+AWGazipasa:NewPayload("AWACS_GAZIPASA",-1,{AUFTRAG.Type.ORBIT, AUFTRAG.Type.AWACS},100)
+
+
+-----------------------------
+
+function startGazipasaAWACS()
+  -- AWACS mission. Orbit at 30000 ft, 300 KIAS, heading 145 for 20 NM.
+  local zoneRedAwacsOrbit=ZONE:New("RED_AWACS_ORBIT")
+  local redAwacsOrbitTask = AUFTRAG:NewORBIT(zoneRedAwacsOrbit:GetCoordinate(), 30000, 300, 145, 20)
+--  redAwacsOrbitTask:SetRequiredEscorts(2, 2, AUFTRAG.Type.ESCORT, "Planes", 40)
+  redAwacsOrbitTask:SetRepeat(99)
+  -- Assign mission to pilot.
+  AWGazipasa:AddMission(redAwacsOrbitTask)
+
+--  TIMER:New(startGazipasaCAP):Start(180)
+end
+
+function startGazipasaCAP()
+  -- AWACS mission. Orbit at 30000 ft, 300 KIAS, heading 145 for 20 NM.
+  local zoneCAP=ZONE:New("CAP_GAZIPASA")
+  local zoneCAPOrbit=ZONE:New("CAP_GAZIPASA_ORBIT")
+  
+  local capTask = AUFTRAG:NewCAP(zoneCAP, 25000, 300, zoneCAPOrbit:GetCoordinate(), 90, 25)
+  capTask:SetRequiredAssets(2, 2)
+  capTask:SetRepeat(99)
+  -- Assign mission to pilot.
+  AWGazipasa:AddMission(capTask)
+
+  TIMER:New(startGazipasaAWACS):Start(180)
+end
+
+
+startGazipasaCAP()
 
 --[[ Create a tanker Squadron
 local mozdok1st = SQUADRON:New("RU_Tanker TEMPLATE",9,"1st Mozdok Tankers")
@@ -53,16 +127,6 @@ local farp_cz01_mi28 = SQUADRON:New("Mi28 A2G TEMPLATE", 12, "Farp CZ01 Mi28")
 farp_cz01_mi28:AddMissionCapability({AUFTRAG.Type.BAI}, 100)
 farp_cz01_mi28:SetGrouping(1)
 ]]--
-
--- Add Squadrons
-AWLarnaca:AddSquadron(Larnaca1st)
-AWLarnaca:AddSquadron(Larnaca2nd)
-AWLarnaca:NewPayload("Mig21_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
-AWLarnaca:NewPayload("C101CC_A2G_Template",-1,{AUFTRAG.Type.BAI},65)
-
-AWPaphos:AddSquadron(Paphos1st)
-AWPaphos:NewPayload("Mig29_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
-
 
 
 --[[ Add Payloads
