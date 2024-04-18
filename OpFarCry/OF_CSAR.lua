@@ -9,6 +9,7 @@ my_csar.autosmoke               = true -- automatically smoke a downed pilot\'s 
 my_csar.autosmokedistance       = 1000 -- distance for autosmoke
 my_csar.coordtype               = 1 -- Use Lat/Long DDM (0), Lat/Long DMS (1), MGRS (2), Bullseye imperial (3) or Bullseye metric (4) for coordinates.
 my_csar.invisiblecrew           = false -- downed pilot spawn is visible
+my_csar.immortalcrew            = true -- downed crew is immortal
 my_csar.useprefix               = false -- allow all helicopter to be CSAR
 my_csar.allowFARPRescue         = true -- allows pilots to be rescued by landing at a FARP or Airbase. Else MASH only!
 my_csar.csarOncrash             = false -- (WIP) If set to true, will generate a downed pilot when a plane crashes as well.

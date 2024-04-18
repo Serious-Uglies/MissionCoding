@@ -3,7 +3,7 @@
 
 AWLarnaca = AIRWING:New("Warehouse Larnaca","AW Larnaca")
 AWLarnaca:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Larnaca))
-AWLarnaca:SetRespawnAfterDestroyed(60*5)
+AWLarnaca:SetRespawnAfterDestroyed(60*20)
 AWLarnaca:SetTakeoffHot()
 AWLarnaca:Start()
 
@@ -23,7 +23,7 @@ Larnaca2nd:SetGrouping(2)
 -- Add Squadrons
 AWLarnaca:AddSquadron(Larnaca1st)
 AWLarnaca:AddSquadron(Larnaca2nd)
-AWLarnaca:NewPayload("Mig21_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
+--AWLarnaca:NewPayload("Mig21_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
 AWLarnaca:NewPayload("C101CC_A2G_Template",-1,{AUFTRAG.Type.BAI},65)
 
 
@@ -32,7 +32,7 @@ AWLarnaca:NewPayload("C101CC_A2G_Template",-1,{AUFTRAG.Type.BAI},65)
 
 AWPaphos = AIRWING:New("Warehouse Paphos","AW Paphos")
 AWPaphos:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Paphos))
-AWPaphos:SetRespawnAfterDestroyed(60*5)
+AWPaphos:SetRespawnAfterDestroyed(60*20)
 AWPaphos:SetTakeoffHot()
 AWPaphos:Start()
 
@@ -43,7 +43,7 @@ Paphos1st:SetFuelLowRefuel(true)
 Paphos1st:SetGrouping(2)
 
 AWPaphos:AddSquadron(Paphos1st)
-AWPaphos:NewPayload("Mig29_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
+--AWPaphos:NewPayload("Mig29_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
 
 
 -----------------------------
@@ -51,18 +51,18 @@ AWPaphos:NewPayload("Mig29_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCIC
 
 AWGazipasa = AIRWING:New("Warehouse Gazipasa","AW Gazipasa")
 AWGazipasa:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Gazipasa))
-AWGazipasa:SetRespawnAfterDestroyed(60*5)
+AWGazipasa:SetRespawnAfterDestroyed(60*20)
 AWGazipasa:SetTakeoffHot()
 AWGazipasa:Start()
 
 -- Create a Mig29 Squadron for Gazipasa.
 local Gazipasa1st=SQUADRON:New("Mig29_CAP_GAZIPASA", 24, "1st Gazipasa Squadron") --Ops.Squadron#SQUADRON
-Gazipasa1st:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
+Gazipasa1st:AddMissionCapability({AUFTRAG.Type.ALERT5, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
 Gazipasa1st:SetFuelLowRefuel(true)
 Gazipasa1st:SetGrouping(2)
 
 AWGazipasa:AddSquadron(Gazipasa1st)
-AWGazipasa:NewPayload("Mig29_CAP_GAZIPASA",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
+AWGazipasa:NewPayload("Mig29_CAP_GAZIPASA",-1,{AUFTRAG.Type.ALERT5, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT},65)
 
 
 local AWACS_GAZIPASA = SQUADRON:New("AWACS_GAZIPASA",16,"Awacs Gazipasa")
@@ -80,7 +80,7 @@ AWGazipasa:NewPayload("AWACS_GAZIPASA",-1,{AUFTRAG.Type.ORBIT, AUFTRAG.Type.AWAC
 function startGazipasaAWACS()
   -- AWACS mission. Orbit at 30000 ft, 300 KIAS, heading 145 for 20 NM.
   local zoneRedAwacsOrbit=ZONE:New("RED_AWACS_ORBIT")
-  local redAwacsOrbitTask = AUFTRAG:NewORBIT(zoneRedAwacsOrbit:GetCoordinate(), 30000, 300, 145, 20)
+  local redAwacsOrbitTask = AUFTRAG:NewORBIT(zoneRedAwacsOrbit:GetCoordinate(), 30000, 300, 210, 20)
 --  redAwacsOrbitTask:SetRequiredEscorts(2, 2, AUFTRAG.Type.ESCORT, "Planes", 40)
   redAwacsOrbitTask:SetRepeat(99)
   -- Assign mission to pilot.
@@ -94,7 +94,7 @@ function startGazipasaCAP()
   local zoneCAP=ZONE:New("CAP_GAZIPASA")
   local zoneCAPOrbit=ZONE:New("CAP_GAZIPASA_ORBIT")
   
-  local capTask = AUFTRAG:NewCAP(zoneCAP, 25000, 300, zoneCAPOrbit:GetCoordinate(), 90, 25)
+  local capTask = AUFTRAG:NewCAP(zoneCAP, 25000, 300, zoneCAPOrbit:GetCoordinate(), 210, 25)
   capTask:SetRequiredAssets(2, 2)
   capTask:SetRepeat(99)
   -- Assign mission to pilot.

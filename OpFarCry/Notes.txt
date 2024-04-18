@@ -1,0 +1,18 @@
+Servertest:
+16.04.2014
+File: Op_FarCry_ServerTestl_01.miz
+
+
+Performance:
+gut, leichte Lags am Anfang
+
+
+ToDo:
+Stored Heading für A/Cs
+AWACS Frequenz
+Bulleye versetzen
+
+Erledigt:
+RED AWACS Spawn Rate reduzieren
+
+
