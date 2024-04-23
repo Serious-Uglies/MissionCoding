@@ -150,14 +150,14 @@ sectorConfig = {
       dependsZone = {},
       blocksZone = {"CombatSector-08", "CombatSector-11", "MountOlympus"}
     }, -- easy
-  ["MountOlympus"] =
+  ["CombatSector-MountOlympus"] =
     {
       name = "Mount Olympus", 
       airwing =  nil,
       zonePrefix = "MountOlympus-",
       opszones = {},
       factoryPrefix = "RF_CZ02",
-      sectorHQ = "MountOlympus_HQ",
+      sectorHQ = "CombatSector_MountOlympus_HQ",
       state = "Sleeping",
       dependsZone = {"CombatSector-08", "CombatSector-09", "CombatSector-10", "CombatSector-11", "CombatSector-12"},
       blocksZone = {}

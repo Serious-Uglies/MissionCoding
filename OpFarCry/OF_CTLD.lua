@@ -35,7 +35,7 @@ end
 -----------------------------------------------
 -- Overwrite Hercules Cargo with our own stuff
 
-CTLD_HERCULES.Types["SkyfireTest"] = {['name'] = "SkyfireTestUnit", ['container'] = true}
+--CTLD_HERCULES.Types["SkyfireTest"] = {['name'] = "SkyfireTestUnit", ['container'] = true}
 
 -----------------------------------------------
 -- Configure our CTLS settings
@@ -124,16 +124,20 @@ my_ctld:AddCratesCargo("FARP",        {"Template_Blue_FARP"},CTLD_CARGO.Enum.FOB
 
 ------------------------------ ATGMs -- 
 my_ctld:AddCratesCargo("ATGM HUMVEE",  {"TEMPLATE_CTLD_Blue_ATGM_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)
---my_ctld:AddCratesCargo("JTAC HUMVEE",  {"TEMPLATE_CTLD_Blue_Jtac_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)
-my_ctld:AddCratesCargo("IFV M2A2",  {"TEMPLATE_CTLD_Blue_ATGM_IFV_M2A2"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)
---my_ctld:AddCratesCargo("ATGM STRYKER",  {"TEMPLATE_CTLD_Blue_ATGM_Stryker"}, CTLD_CARGO.Enum.VEHICLE, 1, 2500)
+my_ctld:AddCratesCargo("ATGM STRYKER",  {"TEMPLATE_CTLD_Blue_ATGM_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 1, 2500)
 
+my_ctld:AddCratesCargo("JTAC HUMVEE",  {"TEMPLATE_CTLD_Blue_Jtac_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)
+my_ctld:AddCratesCargo("IFV M2A2",  {"TEMPLATE_CTLD_Blue_ATGM_IFV_M2A2"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)
+my_ctld:AddCratesCargo("VAB T20",  {"TEMPLATE_CTLD_Blue_VAB_T20"}, CTLD_CARGO.Enum.VEHICLE, 1, 2500)
+
+my_ctld:AddCratesCargo("MLRS M270",  {"TEMPLATE_CTLD_Blue_MLRS_M270"}, CTLD_CARGO.Enum.VEHICLE, 1, 2500)
+my_ctld:AddCratesCargo("M109 Paladin",  {"TEMPLATE_CTLD_Blue_M109_PALADIN"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500)
 
 ------------------------------ SAM/AAA -- 
 my_ctld:AddCratesCargo("AAA Avenger",  {"TEMPLATE_CTLD_Blue_AAA_Avenger"}, CTLD_CARGO.Enum.VEHICLE, 1, 2500)
 my_ctld:AddCratesCargo("AAA Vulcan",  {"TEMPLATE_CTLD_Blue_AAA_Vulcan"}, CTLD_CARGO.Enum.VEHICLE, 1, 2500)
 my_ctld:AddCratesCargo("AAA Gepard",  {"TEMPLATE_CTLD_Blue_AAA_Gepard"}, CTLD_CARGO.Enum.VEHICLE, 1, 3000)
---my_ctld:AddCratesCargo("SAM NASM",  {"TEMPLATE_CTLD_Blue_SAM_NASM"}, CTLD_CARGO.Enum.VEHICLE, 4, 2500)
+my_ctld:AddCratesCargo("SAM NASM",  {"TEMPLATE_CTLD_Blue_SAM_NASM"}, CTLD_CARGO.Enum.VEHICLE, 4, 2500)
 --my_ctld:AddCratesCargo("SAM HAWK",  {"TEMPLATE_CTLD_Blue_SAM_Hawk"}, CTLD_CARGO.Enum.VEHICLE, 6, 2500)
 
 ------------------------------ MBTs -- 
@@ -143,10 +147,10 @@ my_ctld:AddCratesCargo("MBT Leopard 1",  {"TEMPLATE_CTLD_Blue_MBT_LEO1"}, CTLD_C
 my_ctld:AddCratesCargo("SUP M939",  {"TEMPLATE_CTLD_Blue_LOG_M939"}, CTLD_CARGO.Enum.VEHICLE, 1, 1500)
 
 
-my_ctld:AddCTLDZone("CTLD_Kutaisi",CTLD.CargoZoneType.LOAD,SMOKECOLOR.Blue,true,true)
+my_ctld:AddCTLDZone("CTLD_Incirlik",CTLD.CargoZoneType.LOAD,SMOKECOLOR.Blue,true,true)
 my_ctld:AddCTLDZone("CTLD_BasselAlAssad",CTLD.CargoZoneType.LOAD,SMOKECOLOR.Blue,true,true)
 
-local herccargo = CTLD_HERCULES:New("blue", "Hercules Test", my_ctld)
+--local herccargo = CTLD_HERCULES:New("blue", "Hercules Test", my_ctld)
 
 -- FARP Radio. First one has 130AM, next 131 and for forth
 local FARPFreq = 130
