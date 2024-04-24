@@ -16,3 +16,15 @@ Erledigt:
 RED AWACS Spawn Rate reduzieren
 
 
+
+
+
+
+Fehlende Einheiten:
+* DISM_SILKWORM
+
+
+
+
+ai_verbose_log = true
+verbose_xray = true
