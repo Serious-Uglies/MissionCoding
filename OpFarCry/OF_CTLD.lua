@@ -114,7 +114,7 @@ my_ctld:AddCTLDZone("Invincible",CTLD.CargoZoneType.SHIP,SMOKECOLOR.Blue,true,tr
 my_ctld:AddTroopsCargo("Infantry Squad 12",     {"Template_CTLD_Blue_Inf12"},CTLD_CARGO.Enum.TROOPS,12,80)
 my_ctld:AddTroopsCargo("Infantry Squad 8",      {"Template_CTLD_Blue_Inf8"},CTLD_CARGO.Enum.TROOPS,8,80)
 my_ctld:AddTroopsCargo("Infantry Mortar-Team",  {"Template_CTLD_Blue_Mortar"},CTLD_CARGO.Enum.TROOPS,6,110)
-my_ctld:AddTroopsCargo("Infantry JTac Widow",   {"Template_CTLD_Blue_JTac"},CTLD_CARGO.Enum.TROOPS,2,80)
+my_ctld:AddTroopsCargo("Infantry JTac Widow",   {"Template_CTLD_Blue_Inf_JTac"},CTLD_CARGO.Enum.TROOPS,2,80)
 my_ctld:AddTroopsCargo("Infantry Stinger Pair", {"Template_CTLD_Blue_Stinger"},CTLD_CARGO.Enum.TROOPS,2,80)
 
 ------------------------------ FOB/FARP -- 
@@ -125,10 +125,11 @@ my_ctld:AddCratesCargo("FARP",        {"Template_Blue_FARP"},CTLD_CARGO.Enum.FOB
 ------------------------------ ATGMs -- 
 my_ctld:AddCratesCargo("ATGM HUMVEE",  {"TEMPLATE_CTLD_Blue_ATGM_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)
 my_ctld:AddCratesCargo("ATGM STRYKER",  {"TEMPLATE_CTLD_Blue_ATGM_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500)
+my_ctld:AddCratesCargo("SPG STRYKER",  {"TEMPLATE_CTLD_Blue_SPG_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500)
 
 my_ctld:AddCratesCargo("JTAC HUMVEE",  {"TEMPLATE_CTLD_Blue_Jtac_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)
 my_ctld:AddCratesCargo("IFV M2A2",  {"TEMPLATE_CTLD_Blue_ATGM_IFV_M2A2"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500)
-my_ctld:AddCratesCargo("VAB T20",  {"TEMPLATE_CTLD_Blue_VAB_T20"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500)
+--my_ctld:AddCratesCargo("VAB T20",  {"TEMPLATE_CTLD_Blue_VAB_T20"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500)
 
 my_ctld:AddCratesCargo("MLRS M270",  {"TEMPLATE_CTLD_Blue_MLRS_M270"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500)
 my_ctld:AddCratesCargo("M109 Paladin",  {"TEMPLATE_CTLD_Blue_M109_PALADIN"}, CTLD_CARGO.Enum.VEHICLE, 3, 2000)
