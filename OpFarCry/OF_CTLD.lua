@@ -3,11 +3,14 @@
 
 env.info("Loading Autolase")
 local afacSet = SET_GROUP:New():FilterPrefixes({"AFAC", "JTAC", "afac", "jtac","Jtac","JTac","Afac"}):FilterCoalitions("blue"):FilterStart()
-local Pilotset = SET_CLIENT:New():FilterCoalitions("blue"):FilterActive(true):FilterStart()
-local autolaser = AUTOLASE:New(afacSet, coalition.side.BLUE, "AFAC", Pilotset)
-autolaser:SetNotifyPilots(false) -- defaults to true, also shown if debug == true
+--local Pilotset = SET_CLIENT:New():FilterCoalitions("blue"):FilterActive(true):FilterStart()
+local autolaser = AUTOLASE:New(afacSet, coalition.side.BLUE, "AFAC")
+autolaser:SetNotifyPilots(true) -- defaults to true, also shown if debug == true
 autolaser:SetPilotMenu(true)
+autolaser:DisableSmokeMenu()
 autolaser:SetMaxLasingTargets(1)
+autolaser:SetLaserCodes( { 1556, 1557, 1566, 1567, 1576, 1577, 1586, 1587, 1656, 1657, 1666, 1667, 1676, 1677, 1686, 1687} ) -- set self.LaserCodes
+
 
 function autolaser:OnAfterLasing(From, Event, To, LaserSpot)
   local _lasingUnit       = LaserSpot.lasingunit
@@ -64,6 +67,7 @@ my_ctld.pilotmustopendoors = false -- force opening of doors
 my_ctld.SmokeColor = SMOKECOLOR.Red -- color to use when dropping smoke from heli 
 my_ctld.FlareColor = FLARECOLOR.Red -- color to use when flaring from heli
 my_ctld.basetype = "container_cargo" -- default shape of the cargo container
+my_ctld.usesubcats = true -- use sub-category names for crates, adds an extra menu layer in "Get Crates", useful if you have > 10 crate types.
 
 
 --[[ 
@@ -118,34 +122,35 @@ my_ctld:AddTroopsCargo("Infantry JTac Widow",   {"Template_CTLD_Blue_Inf_JTac"},
 my_ctld:AddTroopsCargo("Infantry Stinger Pair", {"Template_CTLD_Blue_Stinger"},CTLD_CARGO.Enum.TROOPS,2,80)
 
 ------------------------------ FOB/FARP -- 
-my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 5, 2000)
-my_ctld:AddCratesCargo("FARP",        {"Template_Blue_FARP"},CTLD_CARGO.Enum.FOB, 2, 1000)
+my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 5, 2000, nil, "FOB")
+my_ctld:AddCratesCargo("FARP",        {"Template_Blue_FARP"},CTLD_CARGO.Enum.FOB, 2, 1000, nil, "FOB")
 --my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FARP_SUPPORT"},CTLD_CARGO.Enum.FOB, 1, 500)
 
 ------------------------------ ATGMs -- 
-my_ctld:AddCratesCargo("ATGM HUMVEE",  {"TEMPLATE_CTLD_Blue_ATGM_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)
-my_ctld:AddCratesCargo("ATGM STRYKER",  {"TEMPLATE_CTLD_Blue_ATGM_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500)
-my_ctld:AddCratesCargo("SPG STRYKER",  {"TEMPLATE_CTLD_Blue_SPG_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500)
+my_ctld:AddCratesCargo("ATGM HUMVEE",  {"TEMPLATE_CTLD_Blue_ATGM_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000, nil, "IFV")
+my_ctld:AddCratesCargo("ATGM STRYKER",  {"TEMPLATE_CTLD_Blue_ATGM_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500, nil, "IFV")
+my_ctld:AddCratesCargo("SPG STRYKER",  {"TEMPLATE_CTLD_Blue_SPG_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500, nil, "IFV")
 
-my_ctld:AddCratesCargo("JTAC HUMVEE",  {"TEMPLATE_CTLD_Blue_Jtac_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000)
-my_ctld:AddCratesCargo("IFV M2A2",  {"TEMPLATE_CTLD_Blue_ATGM_IFV_M2A2"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500)
---my_ctld:AddCratesCargo("VAB T20",  {"TEMPLATE_CTLD_Blue_VAB_T20"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500)
+my_ctld:AddCratesCargo("JTAC HUMVEE",  {"TEMPLATE_CTLD_Blue_Jtac_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000, nil, "IFV")
+my_ctld:AddCratesCargo("IFV M2A2",  {"TEMPLATE_CTLD_Blue_ATGM_IFV_M2A2"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500, nil, "IFV")
+my_ctld:AddCratesCargo("VAB T20",  {"TEMPLATE_CTLD_Blue_VAB_T20"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500, nil, "IFV")
 
-my_ctld:AddCratesCargo("MLRS M270",  {"TEMPLATE_CTLD_Blue_MLRS_M270"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500)
-my_ctld:AddCratesCargo("M109 Paladin",  {"TEMPLATE_CTLD_Blue_M109_PALADIN"}, CTLD_CARGO.Enum.VEHICLE, 3, 2000)
+my_ctld:AddCratesCargo("MLRS M270",  {"TEMPLATE_CTLD_Blue_MLRS_M270"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500, nil, "Arty")
+my_ctld:AddCratesCargo("M109 Paladin",  {"TEMPLATE_CTLD_Blue_M109_PALADIN"}, CTLD_CARGO.Enum.VEHICLE, 3, 2000, nil, "Arty")
 
 ------------------------------ SAM/AAA -- 
-my_ctld:AddCratesCargo("AAA Avenger",  {"TEMPLATE_CTLD_Blue_AAA_Avenger"}, CTLD_CARGO.Enum.VEHICLE, 2, 2000)
-my_ctld:AddCratesCargo("AAA Vulcan",  {"TEMPLATE_CTLD_Blue_AAA_Vulcan"}, CTLD_CARGO.Enum.VEHICLE, 2, 2000)
-my_ctld:AddCratesCargo("AAA Gepard",  {"TEMPLATE_CTLD_Blue_AAA_Gepard"}, CTLD_CARGO.Enum.VEHICLE, 2, 2000)
-my_ctld:AddCratesCargo("SAM NASM",  {"TEMPLATE_CTLD_Blue_SAM_NASM"}, CTLD_CARGO.Enum.VEHICLE, 4, 2500)
+my_ctld:AddCratesCargo("AAA Avenger",  {"TEMPLATE_CTLD_Blue_AAA_Avenger"}, CTLD_CARGO.Enum.VEHICLE, 2, 2000, nil, "AAA")
+my_ctld:AddCratesCargo("AAA Vulcan",  {"TEMPLATE_CTLD_Blue_AAA_Vulcan"}, CTLD_CARGO.Enum.VEHICLE, 2, 2000, nil, "AAA")
+my_ctld:AddCratesCargo("AAA Gepard",  {"TEMPLATE_CTLD_Blue_AAA_Gepard"}, CTLD_CARGO.Enum.VEHICLE, 2, 2000, nil, "AAA")
+
+my_ctld:AddCratesCargo("SAM NASM",  {"TEMPLATE_CTLD_Blue_SAM_NASM"}, CTLD_CARGO.Enum.VEHICLE, 4, 2500, nil, "SAM")
 --my_ctld:AddCratesCargo("SAM HAWK",  {"TEMPLATE_CTLD_Blue_SAM_Hawk"}, CTLD_CARGO.Enum.VEHICLE, 6, 2500)
 
 ------------------------------ MBTs -- 
-my_ctld:AddCratesCargo("MBT Leopard 1",  {"TEMPLATE_CTLD_Blue_MBT_LEO1"}, CTLD_CARGO.Enum.VEHICLE, 2, 3000)
+my_ctld:AddCratesCargo("MBT Leopard 1",  {"TEMPLATE_CTLD_Blue_MBT_LEO1"}, CTLD_CARGO.Enum.VEHICLE, 2, 3000, nil, "MBT")
 
 ------------------------------ LOGISTIC -- 
-my_ctld:AddCratesCargo("SUP M939",  {"TEMPLATE_CTLD_Blue_LOG_M939"}, CTLD_CARGO.Enum.VEHICLE, 1, 1500)
+my_ctld:AddCratesCargo("SUP M939",  {"TEMPLATE_CTLD_Blue_LOG_M939"}, CTLD_CARGO.Enum.VEHICLE, 1, 1500, nil, "LOG")
 
 
 my_ctld:AddCTLDZone("CTLD_Incirlik",CTLD.CargoZoneType.LOAD,SMOKECOLOR.Blue,true,true)
