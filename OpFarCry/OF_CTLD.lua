@@ -123,7 +123,7 @@ my_ctld:AddTroopsCargo("Infantry Stinger Pair", {"Template_CTLD_Blue_Stinger"},C
 
 ------------------------------ FOB/FARP -- 
 my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 5, 2000, nil, "FOB")
-my_ctld:AddCratesCargo("FARP",        {"Template_Blue_FARP"},CTLD_CARGO.Enum.FOB, 2, 1000, nil, "FOB")
+my_ctld:AddCratesCargo("FARP",        {"Template_Blue_FARP"},CTLD_CARGO.Enum.FOB, 2, 1500, nil, "FOB")
 --my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FARP_SUPPORT"},CTLD_CARGO.Enum.FOB, 1, 500)
 
 ------------------------------ ATGMs -- 
@@ -147,7 +147,7 @@ my_ctld:AddCratesCargo("SAM NASM",  {"TEMPLATE_CTLD_Blue_SAM_NASM"}, CTLD_CARGO.
 --my_ctld:AddCratesCargo("SAM HAWK",  {"TEMPLATE_CTLD_Blue_SAM_Hawk"}, CTLD_CARGO.Enum.VEHICLE, 6, 2500)
 
 ------------------------------ MBTs -- 
-my_ctld:AddCratesCargo("MBT Leopard 1",  {"TEMPLATE_CTLD_Blue_MBT_LEO1"}, CTLD_CARGO.Enum.VEHICLE, 2, 3000, nil, "MBT")
+my_ctld:AddCratesCargo("MBT Leopard 1",  {"TEMPLATE_CTLD_Blue_MBT_LEO1"}, CTLD_CARGO.Enum.VEHICLE, 3, 3000, nil, "MBT")
 
 ------------------------------ LOGISTIC -- 
 my_ctld:AddCratesCargo("SUP M939",  {"TEMPLATE_CTLD_Blue_LOG_M939"}, CTLD_CARGO.Enum.VEHICLE, 1, 1500, nil, "LOG")

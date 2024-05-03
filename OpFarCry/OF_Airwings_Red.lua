@@ -11,7 +11,7 @@ AWLarnaca:Start()
 local Larnaca1st=SQUADRON:New("Mig21_A2A_Template", 16, "1st Larnaca Squadron") --Ops.Squadron#SQUADRON
 Larnaca1st:AddMissionCapability({AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT, AUFTRAG.Type.ESCORT, AUFTRAG.Type.CAP, AUFTRAG.Type.ORBIT}, 100)
 Larnaca1st:SetFuelLowRefuel(true)
-Larnaca1st:SetGrouping(2)
+Larnaca1st:SetGrouping(1)
 
 -- Create a C101CC Squadron for Larnaca.
 local Larnaca2nd=SQUADRON:New("C101CC_A2G_Template", 16, "2ndt Larnaca Squadron") --Ops.Squadron#SQUADRON
@@ -19,12 +19,19 @@ Larnaca2nd:AddMissionCapability({AUFTRAG.Type.BAI}, 100)
 Larnaca2nd:SetFuelLowRefuel(true)
 Larnaca2nd:SetGrouping(1)
 
+-- Create a F-4E Squadron for Larnaca.
+local Larnaca3rd=SQUADRON:New("F-4E_A2G_Template", 16, "3rd Larnaca Squadron") --Ops.Squadron#SQUADRON
+Larnaca3rd:AddMissionCapability({AUFTRAG.Type.BAI}, 100)
+Larnaca3rd:SetFuelLowRefuel(true)
+Larnaca3rd:SetGrouping(1)
+
 
 -- Add Squadrons
-AWLarnaca:AddSquadron(Larnaca1st)
+AWLarnaca:AddSquadron(Larnaca3rd)
 AWLarnaca:AddSquadron(Larnaca2nd)
 --AWLarnaca:NewPayload("Mig21_A2A_Template",-1,{AUFTRAG.Type.CAP, AUFTRAG.Type.GCICAP, AUFTRAG.Type.INTERCEPT},65)
-AWLarnaca:NewPayload("C101CC_A2G_Template",-1,{AUFTRAG.Type.BAI},65)
+--AWLarnaca:NewPayload("C101CC_A2G_Template",-1,{AUFTRAG.Type.BAI},65)
+AWLarnaca:NewPayload("F-4E_A2G_Template",-1,{AUFTRAG.Type.BAI},65)
 
 
 -----------------------------
@@ -82,6 +89,26 @@ AWACS_GAZIPASA:SetTurnoverTime(10,20)
 AWACS_GAZIPASA:SetTakeoffHot()
 AWGazipasa:AddSquadron(AWACS_GAZIPASA)
 AWGazipasa:NewPayload("AWACS_GAZIPASA",-1,{AUFTRAG.Type.ORBIT, AUFTRAG.Type.AWACS},100)
+
+
+-----------------------------
+-- Gecitkale
+
+AWGecitkale = AIRWING:New("Warehouse Gecitkale","AW Gecitkale")
+AWGecitkale:SetAirbase(AIRBASE:FindByName(AIRBASE.Syria.Gecitkale))
+AWGecitkale:SetRespawnAfterDestroyed(60*20)
+AWGecitkale:SetTakeoffHot()
+AWGecitkale:Start()
+
+-- Create a Mig21 Squadron for Larnaca.
+local Gecitkale1st=SQUADRON:New("KIOWA_A2G_Template", 16, "1st Gecitkale Squadron") --Ops.Squadron#SQUADRON
+Gecitkale1st:AddMissionCapability({AUFTRAG.Type.BAI}, 100)
+Gecitkale1st:SetFuelLowRefuel(true)
+Gecitkale1st:SetGrouping(1)
+
+-- Add Squadrons
+AWGecitkale:AddSquadron(Gecitkale1st)
+AWGecitkale:NewPayload("KIOWA_A2G_Template",-1,{AUFTRAG.Type.BAI},65)
 
 
 -----------------------------
@@ -251,6 +278,10 @@ RedIntelAwacsEast:SetForgetTime(30)
 RedIntelAwacsEast:__Start(2)
 
 -- Initialize East Zone
+-- A2G Options
+local EastZoneA2GAWs = {AWLarnaca, AWGecitkale}
+--local EastZoneA2GAWs = {AWGecitkale}
+
 local SetRedCombatZoneAWACSEast = ZONE_POLYGON:New("Red Defense Zone East", GROUP:FindByName( "ZONE_RU_CAP_E" ))
 local RedGoZoneSetEast = SET_ZONE:New()
 RedGoZoneSetEast:AddZone(SetRedCombatZoneAWACSEast)
@@ -264,13 +295,17 @@ function RedIntelAwacsEast:OnAfterNewContact(From, Event, To, contact)
   if string.find(contact.attribute, "Ground") or string.find(contact.attribute, "Helo") then
     local mission = AUFTRAG:NewBAI(targetGroup, nil)
     mission:SetRepeatOnFailure(6)
-    AWLarnaca:AddMission(mission)
+
+    local airWing = EastZoneA2GAWs[math.random(1, #EastZoneA2GAWs)]
+    env.info("Requesting BAI from AW: " .. airWing:GetName())
+    airWing:AddMission(mission)
   else
     local mIntercept = AUFTRAG:NewINTERCEPT(targetGroup)
     mIntercept:SetRepeat(99)
     AWLarnaca:AddMission(mIntercept)
   end
 end
+
 
 -- Initialize West Zone
 local RedIntelAwacsWest = INTEL:New(Red_DetectionSetGroupAWACS, "red", "Red AWACS West")
