@@ -122,32 +122,32 @@ my_ctld:AddTroopsCargo("Infantry JTac Widow",   {"Template_CTLD_Blue_Inf_JTac"},
 my_ctld:AddTroopsCargo("Infantry Stinger Pair", {"Template_CTLD_Blue_Stinger"},CTLD_CARGO.Enum.TROOPS,2,80)
 
 ------------------------------ FOB/FARP -- 
-my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 5, 2000, nil, "FOB")
+my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FOB"},CTLD_CARGO.Enum.FOB, 5, 1500, nil, "FOB")
 my_ctld:AddCratesCargo("FARP",        {"Template_Blue_FARP"},CTLD_CARGO.Enum.FOB, 2, 1500, nil, "FOB")
 --my_ctld:AddCratesCargo("FOB",         {"Template_Blue_FARP_SUPPORT"},CTLD_CARGO.Enum.FOB, 1, 500)
 
 ------------------------------ ATGMs -- 
 my_ctld:AddCratesCargo("ATGM HUMVEE",  {"TEMPLATE_CTLD_Blue_ATGM_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000, nil, "IFV")
-my_ctld:AddCratesCargo("ATGM STRYKER",  {"TEMPLATE_CTLD_Blue_ATGM_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500, nil, "IFV")
-my_ctld:AddCratesCargo("SPG STRYKER",  {"TEMPLATE_CTLD_Blue_SPG_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500, nil, "IFV")
+my_ctld:AddCratesCargo("ATGM STRYKER",  {"TEMPLATE_CTLD_Blue_ATGM_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500, nil, "IFV")
+my_ctld:AddCratesCargo("SPG STRYKER",  {"TEMPLATE_CTLD_Blue_SPG_STRYKER"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500, nil, "IFV")
 
-my_ctld:AddCratesCargo("JTAC HUMVEE",  {"TEMPLATE_CTLD_Blue_Jtac_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 2000, nil, "IFV")
-my_ctld:AddCratesCargo("IFV M2A2",  {"TEMPLATE_CTLD_Blue_ATGM_IFV_M2A2"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500, nil, "IFV")
+my_ctld:AddCratesCargo("JTAC HUMVEE",  {"TEMPLATE_CTLD_Blue_Jtac_HUMVEE"}, CTLD_CARGO.Enum.VEHICLE, 1, 1500, nil, "IFV")
+my_ctld:AddCratesCargo("IFV M2A2",  {"TEMPLATE_CTLD_Blue_ATGM_IFV_M2A2"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500, nil, "IFV")
 my_ctld:AddCratesCargo("VAB T20",  {"TEMPLATE_CTLD_Blue_VAB_T20"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500, nil, "IFV")
 
-my_ctld:AddCratesCargo("MLRS M270",  {"TEMPLATE_CTLD_Blue_MLRS_M270"}, CTLD_CARGO.Enum.VEHICLE, 2, 2500, nil, "Arty")
-my_ctld:AddCratesCargo("M109 Paladin",  {"TEMPLATE_CTLD_Blue_M109_PALADIN"}, CTLD_CARGO.Enum.VEHICLE, 3, 2000, nil, "Arty")
+my_ctld:AddCratesCargo("MLRS M270",  {"TEMPLATE_CTLD_Blue_MLRS_M270"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500, nil, "Arty")
+my_ctld:AddCratesCargo("M109 Paladin",  {"TEMPLATE_CTLD_Blue_M109_PALADIN"}, CTLD_CARGO.Enum.VEHICLE, 3, 1500, nil, "Arty")
 
 ------------------------------ SAM/AAA -- 
-my_ctld:AddCratesCargo("AAA Avenger",  {"TEMPLATE_CTLD_Blue_AAA_Avenger"}, CTLD_CARGO.Enum.VEHICLE, 2, 2000, nil, "AAA")
-my_ctld:AddCratesCargo("AAA Vulcan",  {"TEMPLATE_CTLD_Blue_AAA_Vulcan"}, CTLD_CARGO.Enum.VEHICLE, 2, 2000, nil, "AAA")
-my_ctld:AddCratesCargo("AAA Gepard",  {"TEMPLATE_CTLD_Blue_AAA_Gepard"}, CTLD_CARGO.Enum.VEHICLE, 2, 2000, nil, "AAA")
+my_ctld:AddCratesCargo("AAA Avenger",  {"TEMPLATE_CTLD_Blue_AAA_Avenger"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500, nil, "AAA")
+my_ctld:AddCratesCargo("AAA Vulcan",  {"TEMPLATE_CTLD_Blue_AAA_Vulcan"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500, nil, "AAA")
+my_ctld:AddCratesCargo("AAA Gepard",  {"TEMPLATE_CTLD_Blue_AAA_Gepard"}, CTLD_CARGO.Enum.VEHICLE, 2, 1500, nil, "AAA")
 
-my_ctld:AddCratesCargo("SAM NASM",  {"TEMPLATE_CTLD_Blue_SAM_NASM"}, CTLD_CARGO.Enum.VEHICLE, 4, 2500, nil, "SAM")
+my_ctld:AddCratesCargo("SAM NASM",  {"TEMPLATE_CTLD_Blue_SAM_NASM"}, CTLD_CARGO.Enum.VEHICLE, 4, 1500, nil, "SAM")
 --my_ctld:AddCratesCargo("SAM HAWK",  {"TEMPLATE_CTLD_Blue_SAM_Hawk"}, CTLD_CARGO.Enum.VEHICLE, 6, 2500)
 
 ------------------------------ MBTs -- 
-my_ctld:AddCratesCargo("MBT Leopard 1",  {"TEMPLATE_CTLD_Blue_MBT_LEO1"}, CTLD_CARGO.Enum.VEHICLE, 3, 3000, nil, "MBT")
+my_ctld:AddCratesCargo("MBT Leopard 1",  {"TEMPLATE_CTLD_Blue_MBT_LEO1"}, CTLD_CARGO.Enum.VEHICLE, 3, 1500, nil, "MBT")
 
 ------------------------------ LOGISTIC -- 
 my_ctld:AddCratesCargo("SUP M939",  {"TEMPLATE_CTLD_Blue_LOG_M939"}, CTLD_CARGO.Enum.VEHICLE, 1, 1500, nil, "LOG")
@@ -175,7 +175,7 @@ local FARPClearnames = {
 [10]="Perth",
 }
 
-function BuildAFARP(_cooordinate, _name, _unit)
+function InitFARP(_cooordinate, _name, _unit)
   local coord = _cooordinate -- Core.Point#COORDINATE
 
   local FarpName = ((FARPName-1)%10)+1
@@ -183,19 +183,15 @@ function BuildAFARP(_cooordinate, _name, _unit)
   
   FARPFreq = FARPFreq + 0.15
   FARPName = FARPName + 1
-  local zone = ZONE_UNIT:New(_name, _unit, 100)
-  my_ctld:AddCTLDZone(_name, CTLD.CargoZoneType.LOAD, SMOKECOLOR.Blue, true, true)
   local farp = SPAWNSTATIC:NewFromStatic("FARP")
-  farp:InitFARP(FARPName, FARPFreq, 0)
+  farp:InitFARP(FName, FARPFreq, 0)
   farp:InitDead(false)
   farp:SpawnFromCoordinate(_cooordinate, 0)
 
---[[
-  local FarpVehicles = SPAWN:NewWithAlias("Template_Blue_FARP_SUPPORT","FARP "..FARPName.." Technicals")
-  FarpVehicles:InitHeading(0)
-  local FarpVCoord = _cooordinate:Translate(38,332)
-  FarpVehicles:SpawnFromCoordinate(FarpVCoord)
-  ]]
+  if _name then
+    ZONE_UNIT:New(_name, _unit, 100)
+    my_ctld:AddCTLDZone(_name, CTLD.CargoZoneType.LOAD, SMOKECOLOR.Blue, true, true)
+  end
 end
 
 function my_ctld:OnAfterCratesBuild(From, Event, To, Group, Unit, Vehicle)
@@ -207,15 +203,11 @@ function my_ctld:OnAfterCratesBuild(From, Event, To, Group, Unit, Vehicle)
   --Get Unit Type : Wenn FOBCrate dann los
   if (string.match(vunitname, "FARP")) then
     local _coordinate = vunit:GetCoord()
-    BuildAFARP(_coordinate, vname, vunit)
+    InitFARP(_coordinate)
     MESSAGE:New("A new FARP has been created!", 15):ToAll()
   elseif (string.match(vunitname, "FOB")) then
     local _coordinate = vunit:GetCoord()
-    BuildAFARP(_coordinate, vname, vunit)
-
-    local zone = ZONE_UNIT:New(vname, vunit, 100)
-    my_ctld:AddCTLDZone(vname, CTLD.CargoZoneType.LOAD, SMOKECOLOR.Blue, true, true)
-  
+    InitFARP(_coordinate, vname, vunit)
     MESSAGE:New("A new FOB has been created!", 15):ToAll()
   elseif (string.match(vunitname, "JTac")) then
     if (autolaser ~= nil) then
@@ -281,43 +273,50 @@ SetGroups:ForEachGroup(function(theGroup)
     env.info("Group is alive and Active _name: " .. _name)
     MESSAGE:New("Group is alive and Active _name: " .. _name, 15):ToAll()
 
-    local nameEnd = string.find(theGroup:GetName(), "-")
+    if string.find(theGroup:GetName(), "Template_Blue_FOB") then
+      local vname = theGroup:GetName()
+      local vunit = theGroup:GetUnit(1)
+      local _coordinate = vunit:GetCoord()
+      InitFARP(_coordinate, vname, vunit)
+    else
+      local nameEnd = string.find(theGroup:GetName(), "-")
 
-    if nameEnd then
-      local groupType = string.sub(theGroup:GetName(), 1, nameEnd-1)
-      env.info("Grouptype found: " .. groupType)
-  
-      local theCargo = nil
-      for k,v in pairs(my_ctld.Cargo_Troops) do
-        local comparison = ""
-        if type(v.Templates) == "string" then comparison = v.Templates else comparison = v.Templates[1] end
-        if comparison then
-          env.info("comparison: " .. comparison)
-        end
-        if comparison == groupType then
-          theCargo = v
-          break
-        end
-      end
+      if nameEnd then
+        local groupType = string.sub(theGroup:GetName(), 1, nameEnd-1)
+        env.info("Grouptype found: " .. groupType)
     
-      if theCargo then
-        env.info("Found theCargo: " .. theCargo.Name)
-    
-        local cgoname = theCargo.Name
-        local cgotemp = theCargo.Templates
-        local cgotype = theCargo.CargoType
-        local cgoneed = theCargo.CratesNeeded
-        local cgomass = theCargo.PerCrateMass
+        local theCargo = nil
+        for k,v in pairs(my_ctld.Cargo_Troops) do
+          local comparison = ""
+          if type(v.Templates) == "string" then comparison = v.Templates else comparison = v.Templates[1] end
+          if comparison then
+            env.info("comparison: " .. comparison)
+          end
+          if comparison == groupType then
+            theCargo = v
+            break
+          end
+        end
       
-        my_ctld.CargoCounter = my_ctld.CargoCounter + 1
-        my_ctld.TroopCounter = my_ctld.TroopCounter + 1
-        my_ctld.DroppedTroops[my_ctld.TroopCounter] = theGroup
+        if theCargo then
+          env.info("Found theCargo: " .. theCargo.Name)
+      
+          local cgoname = theCargo.Name
+          local cgotemp = theCargo.Templates
+          local cgotype = theCargo.CargoType
+          local cgoneed = theCargo.CratesNeeded
+          local cgomass = theCargo.PerCrateMass
         
-        local newCargo = CTLD_CARGO:New(my_ctld.CargoCounter, cgoname, cgotemp, cgotype, true, true, cgoneed, nil, nil, cgomass)
-        newCargo:SetWasDropped(true)
-      
-        env.info("Readded cargo: theCargo.Name: " .. theCargo.Name)
-        MESSAGE:New("Readded cargo: theCargo.Name: " .. theCargo.Name, 15):ToAll()
+          my_ctld.CargoCounter = my_ctld.CargoCounter + 1
+          my_ctld.TroopCounter = my_ctld.TroopCounter + 1
+          my_ctld.DroppedTroops[my_ctld.TroopCounter] = theGroup
+          
+          local newCargo = CTLD_CARGO:New(my_ctld.CargoCounter, cgoname, cgotemp, cgotype, true, true, cgoneed, nil, nil, cgomass)
+          newCargo:SetWasDropped(true)
+        
+          env.info("Readded cargo: theCargo.Name: " .. theCargo.Name)
+          MESSAGE:New("Readded cargo: theCargo.Name: " .. theCargo.Name, 15):ToAll()
+        end
       end
     end
   end

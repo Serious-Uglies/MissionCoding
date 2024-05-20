@@ -289,7 +289,7 @@ RedIntelAwacsEast:SetAcceptZones(RedGoZoneSetEast)
 
 function RedIntelAwacsEast:OnAfterNewContact(From, Event, To, contact)
   local trgtGrp = contact.group
-  trigger.action.outText("Intel Red East: I found a " .. contact.attribute .. " called " .. contact.groupname, 30)
+--  trigger.action.outText("Intel Red East: I found a " .. contact.attribute .. " called " .. contact.groupname, 30)
   local targetGroup = GROUP:FindByName(contact.groupname)
 
   if string.find(contact.attribute, "Ground") or string.find(contact.attribute, "Helo") then
@@ -321,7 +321,7 @@ RedIntelAwacsWest:SetAcceptZones(RedGoZoneSetWest)
 
 function RedIntelAwacsWest:OnAfterNewContact(From, Event, To, contact)
   local trgtGrp = contact.group
-  trigger.action.outText("Red AWACS West: I found a " .. contact.attribute .. " called " .. contact.groupname, 30)
+--  trigger.action.outText("Red AWACS West: I found a " .. contact.attribute .. " called " .. contact.groupname, 30)
   local targetGroup = GROUP:FindByName(contact.groupname)
 
   if string.find(contact.attribute, "Ground") or string.find(contact.attribute, "Helo") then

@@ -62,7 +62,7 @@ local maxRespawn = 1000
 local observeZonePostfix = "_Observe_Zone"
 local respawnZonePostfix = "_RZ"
 local sceneryIDPostfix = "_ID"
-local respawnInterval = 611 -- seconds - slightly off time to avoid conflict with other scheduled tasks
+local respawnInterval = 1211 -- seconds - slightly off time to avoid conflict with other scheduled tasks
 local respawnPropability = 80  -- probability in which a vehicle is rebuild
 local redInfantryVehicleTemplate = "TEMPLATE_RED_INF_SCOUT_BRDM"
 
@@ -277,6 +277,9 @@ function FactoryDeathRecorder:OnEventDead( _eventData )
       return
     elseif string.find(string.lower(deadGroup:GetName()), "once") ~= nil then
       UglyPrintDebug("Group is declared as ONCE and will not respawn.")
+      return
+    elseif (string.find(string.lower(deadGroup:GetName()), "DISM") == nil and string.find(string.lower(deadGroup:GetName()), "PATROL")) then
+      UglyPrintDebug("Group is not DISM or PATROL and will not respawn.")
       return
     elseif string.find(deadGroup:GetName(), "Infantry_Respawn") ~= nil then
       if deadGroup:CountAliveUnits() == 0 then
